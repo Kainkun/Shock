@@ -7,8 +7,10 @@ using UnityEngine.UI;
 public class Gun : Equipment
 {
     public float fireRate = 1;
-    public float ammoCapacity = 10;
-    float ammoCount;
+    public float ammoCapacity = 36;
+    public float magazineCapacity = 6;
+    public float currentAmmoCount = 36;
+    public float currentMagazineCount = 6;
     public GameObject hitEffectPs;
     public GameObject critHitEffectPs;
 
@@ -16,13 +18,29 @@ public class Gun : Equipment
     public Transform shootPoint;
     LineRenderer lr;
 
-    public float AmmoCount
+    public float CurrentMagazineCount
     {
-        get { return ammoCount; }
+        get { return currentMagazineCount; }
         set
         {
-            ammoCount = AmmoCount;
-            ammoCountUI.text = "Ammo: " + AmmoCount;
+            if (value < 0)
+                CurrentAmmoCount = 0;
+            else
+                currentMagazineCount = value;
+            ammoCountUI.text = "Ammo: " + value + "/" + CurrentAmmoCount;
+        }
+    }
+
+    public float CurrentAmmoCount
+    {
+        get { return currentAmmoCount; }
+        set
+        {
+            if (value < 0)
+                CurrentAmmoCount = 0;
+            else
+                currentAmmoCount = value;
+            ammoCountUI.text = "Ammo: " + CurrentMagazineCount + "/" + value;
         }
     }
 
@@ -35,8 +53,9 @@ public class Gun : Equipment
 
     protected override void Start()
     {
+        CurrentMagazineCount = magazineCapacity;
 
-        AmmoCount = ammoCapacity;
+        ammoCountUI.text = "Ammo: " + CurrentMagazineCount + "/" + CurrentAmmoCount;
 
         base.Start();
     }
@@ -49,7 +68,11 @@ public class Gun : Equipment
 
     public override void Interact() //How all guns shoot
     {
-        AmmoCount--;
+        if (CurrentMagazineCount <= 0)
+            return;
+
+        CurrentMagazineCount--;
+
         RaycastHit hit = GetCrosshairRay();
         if (hit.transform != null)
         {
@@ -69,10 +92,18 @@ public class Gun : Equipment
 
     protected virtual void Shoot() { }//For Inherited Guns
 
+    public virtual void Reload()
+    {
+        float magazineEmptySpace = magazineCapacity - CurrentMagazineCount;
+        float reloadCount = Mathf.Min(magazineEmptySpace, CurrentAmmoCount);
+        CurrentAmmoCount -= reloadCount;
+        CurrentMagazineCount += reloadCount;
+    }
+
     IEnumerator ShootTrail(Vector3 hitPosition)
     {
-        lr.SetPosition(0, shootPoint.position);
-        lr.SetPosition(1, hitPosition);
+        lr.SetPosition(1, shootPoint.position);
+        lr.SetPosition(0, hitPosition);
         lr.enabled = true;
         yield return new WaitForSeconds(0.03f);
         lr.enabled = false;

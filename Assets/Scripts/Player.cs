@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -8,6 +9,8 @@ public class Player : MonoBehaviour
     public float moveSpeed = 300;
     public float jumpforce = 100;
     public float maxInteractDistance = 20;
+
+    public Image crosshairRing;
 
     float xRotation = 0;
     Vector2 movementInput;
@@ -29,6 +32,7 @@ public class Player : MonoBehaviour
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
 
@@ -37,6 +41,15 @@ public class Player : MonoBehaviour
         MouseLook();
         MovementInput();
         InteractionInput();
+
+        RaycastHit hit;
+        if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit, maxInteractDistance))
+            if (hit.collider.GetComponent<PhysicalButton>())
+                crosshairRing.color = Color.red;
+            else
+                crosshairRing.color = Color.white;
+        else
+            crosshairRing.color = Color.white;
     }
 
     private void FixedUpdate()
@@ -82,8 +95,15 @@ public class Player : MonoBehaviour
                 }
             }
 
-
             currentEquipment.Interact();
+        }
+
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+            if(currentEquipment.GetComponent<Gun>())
+            {
+                currentEquipment.GetComponent<Gun>().Reload();
+            }
         }
     }
 
@@ -107,24 +127,19 @@ public class Player : MonoBehaviour
 
     public void Sensitivity(float x)
     {
-        mouseSensitivty.x += x;
-        mouseSensitivty.y += x;
+        mouseSensitivty.x = Mathf.Max(10, mouseSensitivty.x + x);
+        mouseSensitivty.y = Mathf.Max(10, mouseSensitivty.y + x);
         if (mouseSensitivty.x < 1)
             mouseSensitivty.x = 1;
         if (mouseSensitivty.y < 1)
             mouseSensitivty.y = 1;
     }
-    public void CrosshairSpeed(float x) {currentEquipment.crosshairSpeed += x;}
-    public void CrosshairSize(float x) {currentEquipment.crosshairMoveSize += x;}
-    public void MovementPatternHourglass()
+    public void CrosshairSpeed(float x) {currentEquipment.crosshairSpeed = Mathf.Max(0, currentEquipment.crosshairSpeed + x) ; }
+    public void CrosshairSize(float x) {currentEquipment.crosshairMoveSize = Mathf.Max(0, currentEquipment.crosshairMoveSize + x); }
+    public void SetCrosshairMovementMode(int x)
     {
-        currentEquipment.hourglassToggle = true;
+        currentEquipment.currentCrosshairMovement = (Equipment.CrosshairMovementMode)x;
     }
-    public void MovementPatternRandom()
-    {
-        currentEquipment.hourglassToggle = false;
-    }
-
 
 
 }

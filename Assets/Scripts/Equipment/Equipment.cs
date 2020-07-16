@@ -12,6 +12,8 @@ public class Equipment : MonoBehaviour
     public float crosshairMoveSize = 1;
     public float crosshairSpeed = 1;
     public float maxInteractDistance = 10;
+    public enum CrosshairMovementMode { None, Hourglass, Horizontal, Random};
+    public CrosshairMovementMode currentCrosshairMovement;
 
     protected Camera mainCamera;
 
@@ -25,6 +27,7 @@ public class Equipment : MonoBehaviour
     {
         noiseSeed = Random.Range(-10000,10000);
         mainCamera = Player.instance.mainCamera;
+        currentCrosshairMovement = Equipment.CrosshairMovementMode.Random;
     }
 
     protected virtual void Update()
@@ -32,12 +35,15 @@ public class Equipment : MonoBehaviour
         CrosshairMovement();
     }
 
-    public bool hourglassToggle;
     protected virtual void CrosshairMovement() {
-        if (hourglassToggle)
+        if (currentCrosshairMovement == CrosshairMovementMode.Hourglass)
             CrosshairFigureEight();
-        else
+        else if (currentCrosshairMovement == CrosshairMovementMode.Horizontal)
+            CrosshairHorizontal();
+        else if (currentCrosshairMovement == CrosshairMovementMode.Random)
             CrosshairRandom();
+        else
+            crosshairRect.localPosition = Vector2.zero;
     }
     public virtual void Interact() { }
 
@@ -78,7 +84,12 @@ public class Equipment : MonoBehaviour
 
     protected void CrosshairRandom()
     {
-        crosshairRect.localPosition = crosshairMoveSize * new Vector2(0.5f - Mathf.PerlinNoise(Time.time * crosshairSpeed, noiseSeed), 0.5f - Mathf.PerlinNoise(Time.time * crosshairSpeed, 1000 + noiseSeed));
+        crosshairRect.localPosition = crosshairMoveSize * new Vector2(0.5f - Mathf.PerlinNoise(Time.time * crosshairSpeed, noiseSeed), 0.5f - Mathf.PerlinNoise(1000 + noiseSeed, Time.time * crosshairSpeed));
+    }
+
+    protected void CrosshairHorizontal()
+    {
+        crosshairRect.localPosition = crosshairMoveSize * new Vector2(Mathf.Sin(2 * Time.time * crosshairSpeed), 0);
     }
 
 }
