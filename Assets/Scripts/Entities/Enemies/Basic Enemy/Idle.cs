@@ -15,7 +15,10 @@ public class Idle : State
     {
 
     }
-    public void OnEnter() { }
+    public void OnEnter()
+    {
+        basicEnemy.animator.SetFloat("ForwardSpeed", 0);
+    }
     public void OnExit() { }
 
 }

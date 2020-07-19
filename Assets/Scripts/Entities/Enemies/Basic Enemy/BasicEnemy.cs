@@ -6,8 +6,12 @@ public class BasicEnemy : MonoBehaviour
 {
 
     StateMachine stateMachine;
-    NavMeshAgent navMeshAgent;
-    public float chaseSpeed = 2;
+    [HideInInspector]
+    public NavMeshAgent navMeshAgent;
+    [HideInInspector]
+    public Animator animator;
+    public float chaseSpeed = 3;
+    public float chaseAcceleration = 0.1f;
 
     private void Awake()
     {
@@ -18,11 +22,12 @@ public class BasicEnemy : MonoBehaviour
         }
 
         navMeshAgent = GetComponent<NavMeshAgent>();
+        animator = GetComponentInChildren<Animator>();
 
         stateMachine = new StateMachine();
 
         var idle = new Idle(this);
-        var chasePlayer = new ChasePlayer(this, navMeshAgent, chaseSpeed);
+        var chasePlayer = new ChasePlayer(this);
 
         AT(idle, chasePlayer, PlayerIsClose());
         AT(chasePlayer, idle, LoseAgro());
