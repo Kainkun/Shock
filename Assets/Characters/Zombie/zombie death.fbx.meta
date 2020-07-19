@@ -18,8 +18,8 @@ ModelImporter:
     resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
-    rigImportErrors: "Avatar creation failed:\n\tTransform 'mixamorig5_Hips' for
-      human bone 'Hips' not found\n"
+    rigImportErrors: "Invalid copied Avatar Rig Configuration:\n\tNo human bone found.
+      Ensure both rig type match\n"
     rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
@@ -427,7 +427,7 @@ ModelImporter:
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
-  animationType: 2
+  animationType: 3
   humanoidOversampling: 1
   avatarSetup: 1
   additionalBone: 0
