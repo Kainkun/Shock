@@ -1,16 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
     public Vector2 mouseSensitivty = Vector2.one;
-    public float moveSpeed = 300;
+    float currentMoveSpeed;
+    public float sneekSpeed = 50;
+    public float walkSpeed = 200;
+    public float sprintSpeed = 400;
     public float jumpforce = 100;
     public float maxInteractDistance = 20;
-
-    public Image crosshairRing;
 
     float xRotation = 0;
     Vector2 movementInput;
@@ -33,6 +33,8 @@ public class Player : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        currentMoveSpeed = walkSpeed;
     }
 
 
@@ -45,11 +47,11 @@ public class Player : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit, maxInteractDistance))
             if (hit.collider.GetComponent<PhysicalButton>())
-                crosshairRing.color = Color.red;
+                Manager.crosshairRing.color = Color.red;
             else
-                crosshairRing.color = Color.white;
+                Manager.crosshairRing.color = Color.white;
         else
-            crosshairRing.color = Color.white;
+            Manager.crosshairRing.color = Color.white;
     }
 
     private void FixedUpdate()
@@ -78,6 +80,13 @@ public class Player : MonoBehaviour
         movementInput = Vector2.ClampMagnitude(movementInput, 1);
         if (Input.GetKeyDown(KeyCode.Space))
             Jump();
+
+        if (Input.GetKey(KeyCode.LeftShift) && !Input.GetKey(KeyCode.LeftControl))
+            currentMoveSpeed = sprintSpeed;
+        else if (Input.GetKey(KeyCode.LeftControl) && !Input.GetKey(KeyCode.LeftShift))
+            currentMoveSpeed = sneekSpeed;
+        else
+            currentMoveSpeed = walkSpeed;
     }
 
     void InteractionInput()
@@ -110,7 +119,7 @@ public class Player : MonoBehaviour
     void Movement()
     {
         Vector3 vel;
-        vel = moveSpeed * Time.fixedDeltaTime * ((transform.forward * movementInput.y) + (transform.right * movementInput.x));
+        vel = currentMoveSpeed * Time.fixedDeltaTime * ((transform.forward * movementInput.y) + (transform.right * movementInput.x));
         vel.y = rb.velocity.y;
         rb.velocity = vel;
     }

@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 [RequireComponent(typeof(LineRenderer))]
 public class Gun : Equipment
@@ -14,7 +13,6 @@ public class Gun : Equipment
     public GameObject hitEffectPs;
     public GameObject critHitEffectPs;
 
-    public Text ammoCountUI;
     public Transform shootPoint;
     LineRenderer lr;
 
@@ -27,7 +25,7 @@ public class Gun : Equipment
                 CurrentAmmoCount = 0;
             else
                 currentMagazineCount = value;
-            ammoCountUI.text = "Ammo: " + value + "/" + CurrentAmmoCount;
+            Manager.ammoCountUI.text = "Ammo: " + value + "/" + CurrentAmmoCount;
         }
     }
 
@@ -40,7 +38,7 @@ public class Gun : Equipment
                 CurrentAmmoCount = 0;
             else
                 currentAmmoCount = value;
-            ammoCountUI.text = "Ammo: " + CurrentMagazineCount + "/" + value;
+            Manager.ammoCountUI.text = "Ammo: " + CurrentMagazineCount + "/" + value;
         }
     }
 
@@ -55,7 +53,7 @@ public class Gun : Equipment
     {
         CurrentMagazineCount = magazineCapacity;
 
-        ammoCountUI.text = "Ammo: " + CurrentMagazineCount + "/" + CurrentAmmoCount;
+        Manager.ammoCountUI.text = "Ammo: " + CurrentMagazineCount + "/" + CurrentAmmoCount;
 
         base.Start();
     }

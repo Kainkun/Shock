@@ -1,11 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Equipment : MonoBehaviour
 {
-    GameObject crosshair;
     RectTransform crosshairRect;
     float noiseSeed;
 
@@ -19,12 +17,12 @@ public class Equipment : MonoBehaviour
 
     protected virtual void Awake()
     {
-        crosshair = GameObject.FindGameObjectWithTag("Crosshair");
-        crosshairRect = crosshair.GetComponent<RectTransform>();
+
     }
 
     protected virtual void Start()
     {
+        crosshairRect = Manager.crosshairDot.GetComponent<RectTransform>();
         noiseSeed = Random.Range(-10000,10000);
         mainCamera = Player.instance.mainCamera;
         currentCrosshairMovement = Equipment.CrosshairMovementMode.Random;
