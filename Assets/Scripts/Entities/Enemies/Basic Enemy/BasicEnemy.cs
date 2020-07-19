@@ -11,6 +11,12 @@ public class BasicEnemy : MonoBehaviour
 
     private void Awake()
     {
+        var rbs = GetComponentsInChildren<Rigidbody>();
+        foreach (var rb in rbs)
+        {
+            rb.isKinematic = true;
+        }
+
         navMeshAgent = GetComponent<NavMeshAgent>();
 
         stateMachine = new StateMachine();
