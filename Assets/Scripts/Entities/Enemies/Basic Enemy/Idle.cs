@@ -13,7 +13,7 @@ public class Idle : State
 
     public void Tick()
     {
-        Debug.Log("Idle");
+
     }
     public void OnEnter() { }
     public void OnExit() { }

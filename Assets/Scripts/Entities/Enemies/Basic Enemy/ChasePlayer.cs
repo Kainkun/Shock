@@ -20,7 +20,6 @@ public class ChasePlayer : State
 
     public void Tick()
     {
-        Debug.Log("Chase");
         navMeshAgent.SetDestination(Player.instance.transform.position);
 
     }
