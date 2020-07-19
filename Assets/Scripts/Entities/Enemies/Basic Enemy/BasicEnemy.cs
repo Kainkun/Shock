@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-public class BasicEnemy : MonoBehaviour
+public class BasicEnemy : Entity
 {
 
     StateMachine stateMachine;
@@ -26,17 +26,24 @@ public class BasicEnemy : MonoBehaviour
 
         stateMachine = new StateMachine();
 
+        //STATES
         var idle = new Idle(this);
         var chasePlayer = new ChasePlayer(this);
+        var dead = new Dead(this);
 
+        //TRANSITIONS
         AT(idle, chasePlayer, PlayerIsClose());
         AT(chasePlayer, idle, LoseAgro());
 
+        //ANY TRANSITIONS
+        stateMachine.AddAnyTransition(dead, Dead());
         stateMachine.AddAnyTransition(idle, PlayerMissing());
 
+        //BEGINNING STATE
         stateMachine.SetState(idle);
 
         void AT(State to, State from, Func<bool> condition) => stateMachine.AddTransition(to, from, condition);
+        Func<bool> Dead() => () => currentHealth <= 0;
         Func<bool> PlayerMissing() => () => Player.instance == null;
         Func<bool> PlayerIsClose() => () => Vector3.Distance(transform.position, Player.instance.transform.position) < 4;
         Func<bool> LoseAgro() => () => Vector3.Distance(transform.position, Player.instance.transform.position) > 10;

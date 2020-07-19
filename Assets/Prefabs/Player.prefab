@@ -237,14 +237,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouseSensitivty: {x: 50, y: 50}
-  moveSpeed: 300
+  sneekSpeed: 50
+  walkSpeed: 200
+  sprintSpeed: 400
   jumpforce: 300
   maxInteractDistance: 20
-  uiCanvas: {fileID: 3655956322295264121, guid: 1ffd414e2d230c840b621e3503063229,
-    type: 3}
-  crosshairCanvas: {fileID: 8714886029283961659, guid: 565d375b400f71945b9484a0b171dc35,
-    type: 3}
-  crosshairRing: {fileID: 0}
   mainCamera: {fileID: 1854325181538710211}
 --- !u!136 &1854325182474160347
 CapsuleCollider:
@@ -419,6 +416,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1854325182585534944}
     m_Modifications:
+    - target: {fileID: 7063508591402219233, guid: 45a39cf2e347b1341b7dc89be6f8a0b6,
+        type: 3}
+      propertyPath: damage
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7063508591402219244, guid: 45a39cf2e347b1341b7dc89be6f8a0b6,
         type: 3}
       propertyPath: m_LocalPosition.x

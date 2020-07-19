@@ -3,15 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(LineRenderer))]
-public class Gun : Equipment
+public class Gun : Weapon
 {
     public float fireRate = 1;
     public float ammoCapacity = 36;
     public float magazineCapacity = 6;
     public float currentAmmoCount = 36;
     public float currentMagazineCount = 6;
-    public GameObject hitEffectPs;
-    public GameObject critHitEffectPs;
+
 
     public Transform shootPoint;
     LineRenderer lr;
@@ -71,20 +70,14 @@ public class Gun : Equipment
 
         CurrentMagazineCount--;
 
-        RaycastHit hit = GetCrosshairRay();
+        Ray ray;
+        RaycastHit hit = GetCrosshairHit(out ray);
         if (hit.transform != null)
-        {
-            Destroy(Instantiate(hitEffectPs, hit.point, Quaternion.identity), 5);
-            if(hit.transform.name == "Head")//TEMP CODE TEMP CODE TEMP CODE TEMP CODE TEMP CODE TEMP CODE TEMP CODE TEMP CODE TEMP CODE TEMP CODE 
-                Destroy(Instantiate(critHitEffectPs, hit.point, Quaternion.identity), 5);
             StartCoroutine(ShootTrail(hit.point));
-        }
         else
-        {
-            StartCoroutine(ShootTrail(mainCamera.transform.position + mainCamera.transform.forward * 50));
-        }
+            StartCoroutine(ShootTrail(mainCamera.transform.position + ray.direction * 50));
 
-
+        base.Interact();
         Shoot();
     }
 

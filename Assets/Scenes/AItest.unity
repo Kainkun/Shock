@@ -955,6 +955,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4138019700748067282, guid: 765a9fdd21cd5c94882490fb47e6db6b,
+        type: 3}
+      propertyPath: maxHealth
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4138019700748067283, guid: 765a9fdd21cd5c94882490fb47e6db6b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1014,11 +1019,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Monster
-      objectReference: {fileID: 0}
-    - target: {fileID: 7496144101129459677, guid: 765a9fdd21cd5c94882490fb47e6db6b,
-        type: 3}
-      propertyPath: m_ApplyRootMotion
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 765a9fdd21cd5c94882490fb47e6db6b, type: 3}

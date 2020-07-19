@@ -45,10 +45,16 @@ public class Equipment : MonoBehaviour
     }
     public virtual void Interact() { }
 
-    protected RaycastHit GetCrosshairRay()
+    protected RaycastHit GetCrosshairHit()
+    {
+        Ray r;
+        return GetCrosshairHit(out r);
+    }
+    protected RaycastHit GetCrosshairHit(out Ray outRay)
     {
         Vector3 crosshairScreenPos = RectTransformUtility.WorldToScreenPoint(null, crosshairRect.position);
         Ray ray = mainCamera.ScreenPointToRay(crosshairScreenPos);
+        outRay = ray;
         Debug.DrawRay(ray.GetPoint(0), ray.direction, Color.yellow);
 
         RaycastHit hit;
