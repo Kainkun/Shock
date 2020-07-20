@@ -12,10 +12,13 @@ public class BasicEnemy : Entity
     public Animator animator;
     public float chaseSpeed = 3;
     public float chaseAcceleration = 0.1f;
+    public float attackMoveSpeed = 0.5f;
     public float attackTime = 2;
     public float attackAttemptRange = 0.7f;
     public float attackRange = 1;
+    public float attackWidthArc = 30f;
     public float damage = 20;
+    Collider playerMovementCollider;
 
     private void Awake()
     {
@@ -27,13 +30,14 @@ public class BasicEnemy : Entity
 
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
+        playerMovementCollider = GetComponentInChildren<Collider>();
 
         stateMachine = new StateMachine();
 
         //STATES
         var idle = new Idle(this);
         var chasePlayer = new ChasePlayer(this);
-        var dead = new Dead(this);
+        var dead = new Dead(this, playerMovementCollider);
         var attack = new Attack(this);
         var wander = new Wander(this);
 
@@ -62,6 +66,12 @@ public class BasicEnemy : Entity
     }
 
     void Update() => stateMachine.Tick();
+
+    public void SetMovementAnimation()
+    {
+        Vector3 localVelocity = transform.InverseTransformDirection(navMeshAgent.velocity);
+        animator.SetFloat("ForwardSpeed", localVelocity.z / chaseSpeed);
+    }
 
 
 

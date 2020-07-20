@@ -21,8 +21,7 @@ public class ChasePlayer : State
         chasingTime += Time.deltaTime;
         navMeshAgent.SetDestination(Player.instance.transform.position);
         navMeshAgent.speed = Mathf.Lerp(startingMoveSpeed, basicEnemy.chaseSpeed, chasingTime * basicEnemy.chaseAcceleration);
-        Vector3 localVelocity = basicEnemy.transform.InverseTransformDirection(navMeshAgent.velocity);
-        basicEnemy.animator.SetFloat("ForwardSpeed", localVelocity.z/basicEnemy.chaseSpeed);
+        basicEnemy.SetMovementAnimation();
 
     }
     public void OnEnter()

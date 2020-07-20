@@ -5,10 +5,12 @@ using UnityEngine;
 public class Dead : State
 {
     readonly BasicEnemy basicEnemy;
+    Collider playerMovementCollider;
 
-    public Dead(BasicEnemy basicEnemy)
+    public Dead(BasicEnemy basicEnemy, Collider playerMovementCollider)
     {
         this.basicEnemy = basicEnemy;
+        this.playerMovementCollider = playerMovementCollider;
     }
 
     public void Tick()
@@ -17,6 +19,8 @@ public class Dead : State
     }
     public void OnEnter()
     {
+        playerMovementCollider.enabled = false;
+
         var yPlaneHD = basicEnemy.lastHitDirection;
         basicEnemy.lastHitDirection.y = 0;
 
