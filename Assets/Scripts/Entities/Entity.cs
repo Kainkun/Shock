@@ -8,6 +8,7 @@ public class Entity : MonoBehaviour
     protected float currentHealth;
     [HideInInspector]
     public Vector3 lastHitDirection;
+    public float critMultiplier = 2;
 
     void Start()
     {
@@ -19,10 +20,14 @@ public class Entity : MonoBehaviour
     {
         
     }
-    public virtual void TakeDamage(float damage, Vector3 hitDirection)
+    public virtual void TakeDamage(float damage, RaycastHit hit, Vector3 hitDirection)
     {
         lastHitDirection = hitDirection;
-        TakeDamage(damage);
+
+        if (hit.collider.tag == "Critical")
+            TakeDamage(damage * critMultiplier);
+        else
+            TakeDamage(damage);
     }
 
     public virtual void TakeDamage(float damage)

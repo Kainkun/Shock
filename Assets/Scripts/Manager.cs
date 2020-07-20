@@ -12,7 +12,9 @@ public class Manager : MonoBehaviour
 
     public static Image crosshairRing;
     public static Image crosshairDot;
+
     public static Text ammoCountUI;
+    public static Image damageBlink;
 
 
     private void Awake()
@@ -25,6 +27,7 @@ public class Manager : MonoBehaviour
         crosshairRing = crosshairCanvas.transform.Find("ring").GetComponent<Image>();
         crosshairDot = crosshairCanvas.transform.Find("dot").GetComponent<Image>();
         ammoCountUI = uiCanvas.transform.Find("AmmoCount").GetComponent<Text>();
+        damageBlink = uiCanvas.transform.Find("DamageBlink").GetComponent<Image>();
     }
 
     void Start()
@@ -36,5 +39,12 @@ public class Manager : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public static IEnumerator DamageBlink()
+    {
+        damageBlink.enabled = true;
+        yield return new WaitForSeconds(0.1f);
+        damageBlink.enabled = false;
     }
 }

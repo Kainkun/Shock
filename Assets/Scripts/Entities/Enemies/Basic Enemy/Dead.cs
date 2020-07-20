@@ -23,10 +23,6 @@ public class Dead : State
         var yPlaneF = basicEnemy.transform.forward;
         yPlaneF.y = 0;
 
-        Debug.Log(yPlaneHD);
-        Debug.Log(yPlaneF);
-        Debug.Log(Vector3.Dot(yPlaneHD, yPlaneF));
-
         if (Vector3.Dot(yPlaneHD, yPlaneF) <= 0)
             basicEnemy.animator.SetTrigger("DeathFront");
         else

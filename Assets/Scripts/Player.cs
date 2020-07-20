@@ -11,6 +11,9 @@ public class Player : MonoBehaviour
     public float sprintSpeed = 400;
     public float jumpforce = 100;
     public float maxInteractDistance = 20;
+    public float maxHealth = 100;
+    float currentHealth;
+    bool dead;
 
     float xRotation = 0;
     Vector2 movementInput;
@@ -34,6 +37,7 @@ public class Player : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
+        currentHealth = maxHealth;
         currentMoveSpeed = walkSpeed;
     }
 
@@ -60,7 +64,6 @@ public class Player : MonoBehaviour
         
     }
 
-
     void MouseLook()
     {
         float mouseX = mouseSensitivty.x * Input.GetAxis("Mouse X") * Time.deltaTime;
@@ -72,7 +75,6 @@ public class Player : MonoBehaviour
         mainCamera.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
         transform.Rotate(Vector3.up, mouseX);
     }
-
     void MovementInput()
     {
         movementInput.x = Input.GetAxis("Horizontal");
@@ -88,7 +90,6 @@ public class Player : MonoBehaviour
         else
             currentMoveSpeed = walkSpeed;
     }
-
     void InteractionInput()
     {
         RaycastHit hit;
@@ -115,7 +116,6 @@ public class Player : MonoBehaviour
             }
         }
     }
-
     void Movement()
     {
         Vector3 vel;
@@ -123,16 +123,35 @@ public class Player : MonoBehaviour
         vel.y = rb.velocity.y;
         rb.velocity = vel;
     }
-
     void Jump()
     {
         rb.AddForce(Vector3.up * jumpforce, ForceMode.Impulse);
     }
 
+    public void TakeDamage(float damage)
+    {
+        if (dead)
+            return;
 
+        StartCoroutine(Manager.DamageBlink());
 
+        currentHealth -= damage;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        if (currentHealth == 0)
+            Die();
+    }
+    public void Heal(float heal)
+    {
+        currentHealth += heal;
+        currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+    }
+    void Die()
+    {
+        if (dead)
+            return;
+        dead = true;
 
-
+    }
 
     public void Sensitivity(float x)
     {

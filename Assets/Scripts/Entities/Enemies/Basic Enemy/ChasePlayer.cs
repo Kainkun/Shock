@@ -34,7 +34,7 @@ public class ChasePlayer : State
     }
     public void OnExit()
     {
-        basicEnemy.animator.SetFloat("ForwardSpeed", 0);
+        //basicEnemy.animator.SetFloat("ForwardSpeed", 0);
         navMeshAgent.speed = startingMoveSpeed;
         navMeshAgent.SetDestination(basicEnemy.transform.position);
         navMeshAgent.enabled = false;

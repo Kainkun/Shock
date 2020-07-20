@@ -12,6 +12,10 @@ public class BasicEnemy : Entity
     public Animator animator;
     public float chaseSpeed = 3;
     public float chaseAcceleration = 0.1f;
+    public float attackTime = 2;
+    public float attackAttemptRange = 0.7f;
+    public float attackRange = 1;
+    public float damage = 20;
 
     private void Awake()
     {
@@ -30,26 +34,35 @@ public class BasicEnemy : Entity
         var idle = new Idle(this);
         var chasePlayer = new ChasePlayer(this);
         var dead = new Dead(this);
+        var attack = new Attack(this);
+        var wander = new Wander(this);
 
         //TRANSITIONS
         AT(idle, chasePlayer, PlayerIsClose());
-        AT(chasePlayer, idle, LoseAgro());
+        AT(wander, chasePlayer, PlayerIsClose());
+        AT(chasePlayer, attack, InAttackRange());
+        AT(attack, wander, AttackDone());
+        AT(chasePlayer, wander, LoseAgro());
+
 
         //ANY TRANSITIONS
         stateMachine.AddAnyTransition(dead, Dead());
         stateMachine.AddAnyTransition(idle, PlayerMissing());
 
         //BEGINNING STATE
-        stateMachine.SetState(idle);
+        stateMachine.SetState(wander);
 
         void AT(State to, State from, Func<bool> condition) => stateMachine.AddTransition(to, from, condition);
         Func<bool> Dead() => () => currentHealth <= 0;
         Func<bool> PlayerMissing() => () => Player.instance == null;
-        Func<bool> PlayerIsClose() => () => Vector3.Distance(transform.position, Player.instance.transform.position) < 4;
+        Func<bool> PlayerIsClose() => () => Vector3.Distance(transform.position, Player.instance.transform.position) < 7;
         Func<bool> LoseAgro() => () => Vector3.Distance(transform.position, Player.instance.transform.position) > 10;
+        Func<bool> AttackDone() => () => attack.time >= attackTime;
+        Func<bool> InAttackRange() => () => Vector3.Distance(transform.position, Player.instance.transform.position) < attackAttemptRange;
     }
 
     void Update() => stateMachine.Tick();
+
 
 
 }

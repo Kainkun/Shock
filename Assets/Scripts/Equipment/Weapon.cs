@@ -5,7 +5,6 @@ using UnityEngine;
 public class Weapon : Equipment
 {
     public float damage;
-    public float critMultiplier = 2;
     public GameObject hitEffectPs;
     public GameObject critHitEffectPs;
 
@@ -27,13 +26,12 @@ public class Weapon : Equipment
         if (hit.transform.tag == "Critical")
         {
             Destroy(Instantiate(critHitEffectPs, hit.point, Quaternion.identity), 5);
-            entity.TakeDamage(damage * critMultiplier, ray.direction);
         }
         else
         {
             Destroy(Instantiate(hitEffectPs, hit.point, Quaternion.identity), 5);
-            entity.TakeDamage(damage, ray.direction);
         }
+            entity.TakeDamage(damage, hit, ray.direction);
     }
 
     public override void Interact()
