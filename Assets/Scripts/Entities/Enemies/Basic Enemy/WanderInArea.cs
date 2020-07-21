@@ -9,7 +9,6 @@ public class WanderInArea : State
     float wanderTime;
     float timeSinceDestination;
     float timeToWaitAfterDestination;
-    Rect area;
     float startingAcceleration;
 
     public WanderInArea(BasicEnemy basicEnemy)
@@ -28,7 +27,7 @@ public class WanderInArea : State
         {
             timeSinceDestination += Time.deltaTime;
             if(timeSinceDestination >= timeToWaitAfterDestination)
-                GoToRandomPlaceWithinArea(area);
+                GoToRandomPlaceWithinArea();
         }
 
     }
@@ -39,8 +38,7 @@ public class WanderInArea : State
         basicEnemy.navMeshAgent.acceleration = basicEnemy.wanderAcceleration;
         wanderTime = 0;
 
-        area = BoxColliderToRect(basicEnemy.wanderArea);
-        GoToRandomPlaceWithinArea(area);
+        GoToRandomPlaceWithinArea();
     }
     public void OnExit()
     {
@@ -53,7 +51,7 @@ public class WanderInArea : State
 
 
 
-    void GoToRandomPlaceWithinArea(Rect rect)
+    void GoToRandomPlaceWithinArea()
     {
         timeSinceDestination = 0;
         timeToWaitAfterDestination = Random.Range(2, 4);
@@ -62,39 +60,25 @@ public class WanderInArea : State
 
     Vector3 GetRandomValidPositionInArea()
     {
-        Vector3 randInArea = RandomWithinRect(area);
+        Vector3 randInArea = RandomWithinBox(basicEnemy.wanderArea);
+        randInArea.y = basicEnemy.transform.position.y;
+
         NavMeshHit hit;
         if( NavMesh.SamplePosition(randInArea, out hit, 2, NavMesh.AllAreas))
         {
-            return hit.position;
+            return randInArea;
         }
 
         return GetRandomValidPositionInArea();
     }
 
-    Rect BoxColliderToRect(BoxCollider box)
-    {
-        Rect rect = new Rect();
 
-        Vector2 rectCenter = new Vector2();
-        rectCenter.x = box.transform.position.x + box.center.x;
-        rectCenter.y = box.transform.position.z + box.center.z;
-        rect.center = rectCenter;
-
-        rect.width = box.size.x;
-        rect.height = box.size.z;
-
-        return rect;
-    }
-
-    Vector3 RandomWithinRect(Rect rect)
+    Vector3 RandomWithinBox(BoxCollider box)
     {
         Vector3 v = new Vector3();
-        v.x = rect.x;
-        v.z = rect.y;
-        v.x += Random.Range(-rect.width / 2, rect.width / 2);
-        v.z += Random.Range(-rect.height / 2, rect.height / 2);
-        v.y = basicEnemy.transform.position.y;
+        v.x = Random.Range(box.bounds.min.x, box.bounds.max.x);
+        v.y = Random.Range(box.bounds.min.y, box.bounds.max.y);
+        v.z = Random.Range(box.bounds.min.z, box.bounds.max.z);
         return v;
     }
 
