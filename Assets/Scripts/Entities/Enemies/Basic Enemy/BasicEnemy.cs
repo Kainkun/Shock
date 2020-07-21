@@ -19,6 +19,9 @@ public class BasicEnemy : Entity
     public float attackWidthArc = 30f;
     public float damage = 20;
     Collider playerMovementCollider;
+    public float sightFOV = 45;
+    public float sightDistance = 10;
+    Transform eyesPosition;
 
     private void Awake()
     {
@@ -31,6 +34,7 @@ public class BasicEnemy : Entity
         navMeshAgent = GetComponent<NavMeshAgent>();
         animator = GetComponentInChildren<Animator>();
         playerMovementCollider = GetComponentInChildren<Collider>();
+        eyesPosition = GetComponentInChildren<EyesLocation>().transform;
 
         stateMachine = new StateMachine();
 
@@ -42,8 +46,8 @@ public class BasicEnemy : Entity
         var wander = new Wander(this);
 
         //TRANSITIONS
-        AT(idle, chasePlayer, PlayerIsClose());
-        AT(wander, chasePlayer, PlayerIsClose());
+        AT(idle, chasePlayer, SeePlayer());
+        AT(wander, chasePlayer, SeePlayer());
         AT(chasePlayer, attack, InAttackRange());
         AT(attack, wander, AttackDone());
         AT(chasePlayer, wander, LoseAgro());
@@ -63,6 +67,7 @@ public class BasicEnemy : Entity
         Func<bool> LoseAgro() => () => Vector3.Distance(transform.position, Player.instance.transform.position) > 10;
         Func<bool> AttackDone() => () => attack.time >= attackTime;
         Func<bool> InAttackRange() => () => Vector3.Distance(transform.position, Player.instance.transform.position) < attackAttemptRange;
+        Func<bool> SeePlayer() => () => RayHitsPlayer() && Vector3.Angle(eyesPosition.forward, Player.instance.mainCamera.transform.position - eyesPosition.position) < sightFOV;
     }
 
     void Update() => stateMachine.Tick();
@@ -71,6 +76,23 @@ public class BasicEnemy : Entity
     {
         Vector3 localVelocity = transform.InverseTransformDirection(navMeshAgent.velocity);
         animator.SetFloat("ForwardSpeed", localVelocity.z / chaseSpeed);
+    }
+
+    bool RayHitsPlayer()
+    {
+        /*Debug.DrawRay(eyesPosition.position, eyesPosition.forward, Color.white);
+        Debug.DrawRay(eyesPosition.position, (Player.instance.mainCamera.transform.position - eyesPosition.position).normalized * sightDistance, Color.red);*/
+
+
+        RaycastHit hit;
+        if(Physics.Raycast(eyesPosition.position, Player.instance.mainCamera.transform.position - eyesPosition.position, out hit, sightDistance))
+        {
+            if(hit.transform.tag == "Player")
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
 
