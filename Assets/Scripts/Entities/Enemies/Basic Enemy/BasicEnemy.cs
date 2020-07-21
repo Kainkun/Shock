@@ -22,6 +22,9 @@ public class BasicEnemy : Entity
     public float sightFOV = 45;
     public float sightDistance = 10;
     Transform eyesPosition;
+    [HideInInspector]
+    public BoxCollider wanderArea;
+    public float wanderAcceleration = 5;
 
     private void Awake()
     {
@@ -35,6 +38,8 @@ public class BasicEnemy : Entity
         animator = GetComponentInChildren<Animator>();
         playerMovementCollider = GetComponentInChildren<Collider>();
         eyesPosition = GetComponentInChildren<EyesLocation>().transform;
+        wanderArea = GetComponentInChildren<BoxCollider>();
+        wanderArea.transform.parent = null;
 
         stateMachine = new StateMachine();
 
@@ -44,13 +49,16 @@ public class BasicEnemy : Entity
         var dead = new Dead(this, playerMovementCollider);
         var attack = new Attack(this);
         var wander = new Wander(this);
+        var wanderInArea = new WanderInArea(this);
 
         //TRANSITIONS
-        AT(idle, chasePlayer, SeePlayer());
-        AT(wander, chasePlayer, SeePlayer());
-        AT(chasePlayer, attack, InAttackRange());
-        AT(attack, wander, AttackDone());
-        AT(chasePlayer, wander, LoseAgro());
+        //AT(idle, chasePlayer, SeePlayer());
+        //AT(wander, chasePlayer, SeePlayer());
+        //AT(wanderInArea, chasePlayer, SeePlayer());
+
+        //AT(chasePlayer, attack, InAttackRange());
+        //AT(attack, wanderInArea, AttackDone());
+        //AT(chasePlayer, wanderInArea, LoseAgro());
 
 
         //ANY TRANSITIONS
@@ -58,7 +66,7 @@ public class BasicEnemy : Entity
         stateMachine.AddAnyTransition(idle, PlayerMissing());
 
         //BEGINNING STATE
-        stateMachine.SetState(wander);
+        stateMachine.SetState(wanderInArea);
 
         void AT(State to, State from, Func<bool> condition) => stateMachine.AddTransition(to, from, condition);
         Func<bool> Dead() => () => currentHealth <= 0;
@@ -95,6 +103,17 @@ public class BasicEnemy : Entity
         return false;
     }
 
+    private void OnDrawGizmosSelected()
+    {
+        Vector3 eyes;
+        if (eyesPosition != null)
+            eyes = eyesPosition.position;
+        else
+            eyes = transform.position + Vector3.up * 1.5f;
 
+        Gizmos.color = Color.red;
+        Gizmos.matrix = Matrix4x4.TRS(transform.position + Vector3.up * 1.5f, transform.rotation, Vector3.one);
+        Gizmos.DrawFrustum(Vector3.zero, sightFOV, sightDistance, 0.1f, 1);
+    }
 
 }
