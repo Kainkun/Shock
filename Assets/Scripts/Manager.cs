@@ -10,6 +10,8 @@ public class Manager : MonoBehaviour
     public static GameObject uiCanvas;
     public static GameObject crosshairCanvas;
 
+    public static UIEquipmentSlots uiEquipmentSlots;
+
     public static Image crosshairRing;
     public static Image crosshairDot;
 
@@ -23,6 +25,8 @@ public class Manager : MonoBehaviour
 
         uiCanvas = Instantiate(Resources.Load<GameObject>("Prefabs/UICanvas"));
         crosshairCanvas = Instantiate(Resources.Load<GameObject>("Prefabs/CrosshairCanvas"));
+
+        uiEquipmentSlots = uiCanvas.GetComponentInChildren<UIEquipmentSlots>();
 
         crosshairRing = crosshairCanvas.transform.Find("ring").GetComponent<Image>();
         crosshairDot = crosshairCanvas.transform.Find("dot").GetComponent<Image>();

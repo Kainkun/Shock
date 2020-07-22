@@ -28,7 +28,8 @@ public class Player : MonoBehaviour
     {
         instance = this;
         mainCamera = Camera.main;
-        currentEquipment = GetComponentInChildren<Equipment>();
+        if(GetComponentInChildren<Equipment>() != null)
+            currentEquipment = GetComponentInChildren<Equipment>();
         rb = GetComponent<Rigidbody>();
     }
 
@@ -39,6 +40,12 @@ public class Player : MonoBehaviour
 
         currentHealth = maxHealth;
         currentMoveSpeed = walkSpeed;
+
+        if (currentEquipment != null)
+        {
+            Manager.uiEquipmentSlots.SlotCount = 1;
+            Manager.uiEquipmentSlots.CurrentSlotIndex = 0;
+        }
     }
 
 
