@@ -6,22 +6,25 @@ public class Wrench : Weapon
 {
     public float swingTime = 1;
     Coroutine currentSwingCoroutine;
+    bool swinging;
 
     public override void Interact()
     {
-        if(currentSwingCoroutine == null)
-            currentSwingCoroutine = StartCoroutine(Swing());
+        if (swinging)
+            return;
 
+        swinging = true;
+        animator.SetTrigger("Swing");
     }
 
-    void AttemptHit()
+    public void AttemptHit()
     {
         Ray ray;
         RaycastHit hit = GetCrosshairHit(out ray);
 
         if (hit.transform)
         {
-            if (hit.transform.root.GetComponent<Entity>()) //if entity deal damage
+            if (hit.transform.root.GetComponent<Entity>()) //if entity, deal damage
             {
                 DamageEntity(hit, ray);
             }
@@ -32,11 +35,9 @@ public class Wrench : Weapon
         }
     }
 
-    IEnumerator Swing()
+    public void SwingDone()
     {
-        yield return new WaitForSeconds(swingTime);
-        AttemptHit();
-
-        currentSwingCoroutine = null;
+        swinging = false;
     }
+
 }

@@ -11,6 +11,7 @@ public class Gun : Weapon
     public float currentAmmoCount = 36;
     public float currentMagazineCount = 6;
 
+    public bool reloading;
 
     public Transform shootPoint;
     LineRenderer lr;
@@ -65,8 +66,10 @@ public class Gun : Weapon
 
     public override void Interact() //How all guns shoot
     {
-        if (CurrentMagazineCount <= 0)
+        if (reloading || CurrentMagazineCount <= 0)
             return;
+
+        animator.SetTrigger("Shoot");
 
         CurrentMagazineCount--;
 
@@ -78,13 +81,22 @@ public class Gun : Weapon
             StartCoroutine(ShootTrail(mainCamera.transform.position + ray.direction * 50));
 
         base.Interact();
-        Shoot();
     }
 
-    protected virtual void Shoot() { }//For Inherited Guns
+
+    public virtual void AttemptReload()
+    {
+        if (currentMagazineCount < magazineCapacity)
+        {
+            reloading = true;
+            animator.SetTrigger("Reload");
+            //currentEquipment.GetComponent<Gun>().Reload();
+        }
+    }
 
     public virtual void Reload()
     {
+        reloading = false;
         float magazineEmptySpace = magazineCapacity - CurrentMagazineCount;
         float reloadCount = Mathf.Min(magazineEmptySpace, CurrentAmmoCount);
         CurrentAmmoCount -= reloadCount;

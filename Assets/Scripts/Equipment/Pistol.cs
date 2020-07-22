@@ -10,17 +10,18 @@ public class Pistol : Gun
         maxInteractDistance = 100;
     }
 
- 
 
-/*    protected override void CrosshairMovement()
+
+    /*    protected override void CrosshairMovement()
+        {
+            base.CrosshairRandom();
+            //base.CrosshairFigureEight();
+        }*/
+
+
+    public override void Interact()
     {
-        base.CrosshairRandom();
-        //base.CrosshairFigureEight();
-    }*/
-
-    protected override void Shoot()
-    {
-
+        base.Interact();
     }
 
 }

@@ -11,8 +11,10 @@ GameObject:
   - component: {fileID: 7063508590228854958}
   - component: {fileID: 7063508590228854947}
   - component: {fileID: 7063508590228854944}
+  - component: {fileID: 8959013202338617375}
+  - component: {fileID: 6654222257498820936}
   m_Layer: 9
-  m_Name: Cube (1)
+  m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,9 +30,10 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.56343, y: 0.4471, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 7063508591131340670}
   m_Father: {fileID: 7063508591402219244}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7063508590228854947
 MeshFilter:
@@ -79,6 +82,37 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+--- !u!95 &8959013202338617375
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7063508590228854959}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0fe070f355ae91844b48452ff847943a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &6654222257498820936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7063508590228854959}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddcd5e4cadd4d034786f7a340e16cd01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7063508591131340671
 GameObject:
   m_ObjectHideFlags: 0
@@ -104,9 +138,9 @@ Transform:
   m_GameObject: {fileID: 7063508591131340671}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.48}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.7748435, y: 2.2366362, z: 1}
   m_Children: []
-  m_Father: {fileID: 7063508591402219244}
+  m_Father: {fileID: 7063508590228854958}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7063508591402219245
@@ -139,7 +173,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 7063508591131340670}
   - {fileID: 7063508590228854958}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -256,6 +289,7 @@ MonoBehaviour:
   crosshairSetting: {fileID: 11400000, guid: 35db672078c5dc44da38e118918fc4e6, type: 2}
   maxInteractDistance: 200
   Icon: {fileID: 21300000, guid: 528aada85424f8f4d8e23ac0df647c43, type: 3}
+  animator: {fileID: 0}
   damage: 10
   hitEffectPs: {fileID: 6864432093804288156, guid: 64bfc569ef1650f49bec83417cb17054,
     type: 3}
@@ -266,6 +300,7 @@ MonoBehaviour:
   magazineCapacity: 6
   currentAmmoCount: 36000
   currentMagazineCount: 0
+  reloading: 0
   shootPoint: {fileID: 7063508591131340670}
 --- !u!135 &532889897
 SphereCollider:

@@ -8,10 +8,14 @@ public class Equipment : MonoBehaviour
     public CrosshairSetting crosshairSetting;
     public float maxInteractDistance = 10;
     public Sprite Icon;
+    public Animator animator;
 
     protected Camera mainCamera;
 
-    protected virtual void Awake() { }
+    protected virtual void Awake()
+    {
+        animator = GetComponentInChildren<Animator>();
+    }
     protected virtual void Start()
     {
         mainCamera = Player.instance.mainCamera;

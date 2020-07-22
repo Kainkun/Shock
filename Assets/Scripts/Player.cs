@@ -23,7 +23,8 @@ public class Player : MonoBehaviour
     float xRotation = 0;
     Vector2 movementInput;
     Transform equipmentPosition;
-    Equipment currentEquipment;
+    [HideInInspector]
+    public Equipment currentEquipment;
     Rigidbody rb;
     [HideInInspector]
     public Camera mainCamera;
@@ -170,10 +171,7 @@ public class Player : MonoBehaviour
 
         if(Input.GetKeyDown(KeyCode.R))
         {
-            if(currentEquipment && currentEquipment.GetComponent<Gun>())
-            {
-                currentEquipment.GetComponent<Gun>().Reload();
-            }
+            currentEquipment?.GetComponent<Gun>()?.AttemptReload();
         }
 
         if (Input.GetAxis("Mouse ScrollWheel") != 0 && Manager.uiEquipmentSlots.SlotCount > 0)

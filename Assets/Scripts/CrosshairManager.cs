@@ -31,6 +31,12 @@ public class CrosshairManager : MonoBehaviour
 
     protected virtual void CrosshairMovement()
     {
+        if(currentCrosshairSetting == null)
+        {
+            crosshairRect.localPosition = Vector2.zero;
+            return;
+        }
+
         switch (currentCrosshairSetting.movementPattern)
         {
             case CrosshairMovementPattern.Hourglass:
