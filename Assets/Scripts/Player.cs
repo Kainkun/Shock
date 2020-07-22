@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public static Player instance;
+
     public CrosshairSetting crosshairSettingNone;
     public Vector2 mouseSensitivty = Vector2.one;
+
     float currentMoveSpeed;
     public float sneekSpeed = 50;
     public float walkSpeed = 200;
@@ -15,14 +18,13 @@ public class Player : MonoBehaviour
     public float maxHealth = 100;
     float currentHealth;
     bool dead;
+    public GameObject[] startingEquipment;
 
     float xRotation = 0;
     Vector2 movementInput;
     Transform equipmentPosition;
-
-    public static Player instance;
-    Rigidbody rb;
     Equipment currentEquipment;
+    Rigidbody rb;
     [HideInInspector]
     public Camera mainCamera;
 
@@ -30,8 +32,8 @@ public class Player : MonoBehaviour
     {
         instance = this;
         mainCamera = Camera.main;
-        if(GetComponentInChildren<Equipment>() != null)
-            currentEquipment = GetComponentInChildren<Equipment>();
+        /*if(GetComponentInChildren<Equipment>() != null)
+            currentEquipment = GetComponentInChildren<Equipment>();*/
         rb = GetComponent<Rigidbody>();
         equipmentPosition = GameObject.Find("EquipmentPosition").transform;
     }
@@ -44,12 +46,36 @@ public class Player : MonoBehaviour
         currentHealth = maxHealth;
         currentMoveSpeed = walkSpeed;
 
-        CrosshairManager.currentCrosshairSetting = crosshairSettingNone;
-        if (currentEquipment != null)
+        for (int i = 0; i < startingEquipment.Length; i++)
+        {
+            if(startingEquipment[i] == null)
+            {
+                Manager.uiEquipmentSlots.AddSlot();
+                continue;
+            }
+
+            Equipment E = Instantiate(startingEquipment[i], equipmentPosition, false).GetComponent<Equipment>();
+            Manager.uiEquipmentSlots.AddSlot(E);
+
+            E.GetComponent<Collider>().enabled = false;
+            E.enabled = true;
+            if(i != 0)
+                E.gameObject.SetActive(false);
+        }
+        if(Manager.uiEquipmentSlots.SlotCount > 0)
+        {
+            Manager.uiEquipmentSlots.CurrentSlotIndex = 0;
+            if (Manager.uiEquipmentSlots.CurrentSlot.Equipment != null)
+                currentEquipment = Manager.uiEquipmentSlots.CurrentSlot.Equipment;
+            else
+                CrosshairManager.currentCrosshairSetting = crosshairSettingNone;
+        }
+
+/*        if (currentEquipment != null)
         {
             Manager.uiEquipmentSlots.AddSlot(currentEquipment);
             Manager.uiEquipmentSlots.CurrentSlotIndex = 0;
-        }
+        }*/
     }
 
 
