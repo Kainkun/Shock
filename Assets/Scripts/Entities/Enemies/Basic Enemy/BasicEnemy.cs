@@ -25,6 +25,7 @@ public class BasicEnemy : Entity
     [HideInInspector]
     public BoxCollider wanderArea;
     public float wanderAcceleration = 5;
+    public float maxSearchTime = 10;
 
     private void Awake()
     {
@@ -50,15 +51,20 @@ public class BasicEnemy : Entity
         var attack = new Attack(this);
         var wander = new Wander(this);
         var wanderInArea = new WanderInArea(this);
+        var searchForPlayer = new SearchForPlayer(this);
 
         //TRANSITIONS
-        //AT(idle, chasePlayer, SeePlayer());
-        //AT(wander, chasePlayer, SeePlayer());
-        //AT(wanderInArea, chasePlayer, SeePlayer());
+        AT(idle, chasePlayer, SeePlayer());
+        AT(wander, chasePlayer, SeePlayer());
+        AT(wanderInArea, chasePlayer, SeePlayer());
+        AT(searchForPlayer, chasePlayer, SeePlayer());
 
-        //AT(chasePlayer, attack, InAttackRange());
-        //AT(attack, wanderInArea, AttackDone());
-        //AT(chasePlayer, wanderInArea, LoseAgro());
+        AT(chasePlayer, attack, InAttackRange());
+        AT(attack, wanderInArea, AttackDone());
+        AT(chasePlayer, searchForPlayer, CantFindPlayer());
+        AT(searchForPlayer, wanderInArea, SearchOver());
+        AT(chasePlayer, wanderInArea, LoseAgro());
+
 
 
         //ANY TRANSITIONS
@@ -76,6 +82,8 @@ public class BasicEnemy : Entity
         Func<bool> AttackDone() => () => attack.time >= attackTime;
         Func<bool> InAttackRange() => () => Vector3.Distance(transform.position, Player.instance.transform.position) < attackAttemptRange;
         Func<bool> SeePlayer() => () => RayHitsPlayer() && Vector3.Angle(eyesPosition.forward, Player.instance.mainCamera.transform.position - eyesPosition.position) < sightFOV;
+        Func<bool> CantFindPlayer() => () => !RayHitsPlayer();
+        Func<bool> SearchOver() => () =>  searchForPlayer.searchTime >= maxSearchTime;
     }
 
     void Update() => stateMachine.Tick();

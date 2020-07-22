@@ -42,7 +42,6 @@ public class WanderInArea : State
     }
     public void OnExit()
     {
-        Debug.Log(basicEnemy.name);
         basicEnemy.navMeshAgent.SetDestination(basicEnemy.transform.position);
         basicEnemy.navMeshAgent.acceleration = startingAcceleration;
         basicEnemy.navMeshAgent.enabled = false;

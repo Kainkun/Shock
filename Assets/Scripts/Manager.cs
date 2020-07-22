@@ -38,7 +38,7 @@ public class Manager : MonoBehaviour
 
     void Update()
     {
-        
+
     }
 
     public static IEnumerator DamageBlink()
@@ -46,5 +46,22 @@ public class Manager : MonoBehaviour
         damageBlink.enabled = true;
         yield return new WaitForSeconds(0.1f);
         damageBlink.enabled = false;
+    }
+
+    public static float InverseLerpUnclamped(float a, float b, float v)
+    {
+        return (v - a) / (b - a);
+    }
+
+    public static float Remap(float iMin, float iMax, float oMin, float oMax, float v)
+    {
+        float t = Mathf.InverseLerp(iMin, iMax, v);
+        return Mathf.Lerp(oMin, oMax, t);
+    }
+
+    public static float RemapUnclamped(float iMin, float iMax, float oMin, float oMax, float v)
+    {
+        float t = InverseLerpUnclamped(iMin, iMax, v);
+        return Mathf.LerpUnclamped(oMin, oMax, t);
     }
 }
