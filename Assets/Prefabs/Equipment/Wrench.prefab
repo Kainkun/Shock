@@ -40,7 +40,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1272692808407681415}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b34cea531d37afe44851675de221eca8, type: 3}
   m_Name: 
@@ -48,6 +48,7 @@ MonoBehaviour:
   crosshairSetting: {fileID: 11400000, guid: 45469ba30d5ca8a4cada113cf5e3fcf4, type: 2}
   maxInteractDistance: 1
   Icon: {fileID: 21300000, guid: a0e318a084007894c9fa2d616c855d7b, type: 3}
+  animator: {fileID: 0}
   damage: 25
   hitEffectPs: {fileID: 6864432093804288156, guid: 64bfc569ef1650f49bec83417cb17054,
     type: 3}
@@ -78,8 +79,9 @@ GameObject:
   - component: {fileID: 1272692808539365090}
   - component: {fileID: 1272692808539365101}
   - component: {fileID: 8460054664369738414}
+  - component: {fileID: 1272692807645699804}
   m_Layer: 0
-  m_Name: Cube
+  m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -92,13 +94,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1272692808539365102}
-  m_LocalRotation: {x: 0.11561281, y: -0, z: -0, w: 0.99329436}
+  m_LocalRotation: {x: 0.1156128, y: 0, z: 0, w: 0.9932944}
   m_LocalPosition: {x: 0, y: 0.27, z: 0.15}
   m_LocalScale: {x: 0.18226646, y: 0.7816248, z: 0.17715679}
   m_Children: []
   m_Father: {fileID: 1272692808407681413}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 13.278001, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 13.278, y: 0, z: 0}
 --- !u!33 &1272692808539365090
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -165,3 +167,15 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1272692807645699804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1272692808539365102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 025e5ceb423af954c9a3fbcb171b34be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
