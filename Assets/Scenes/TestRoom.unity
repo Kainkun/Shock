@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3335945, g: 0.49971208, b: 0.8330084, a: 1}
+  m_IndirectSpecularColor: {r: 0.33311632, g: 0.4989613, b: 0.8330084, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -73,7 +73,7 @@ LightmapSettings:
     m_FinalGatherRayCount: 256
     m_ReflectionCompression: 2
     m_MixedBakeMode: 2
-    m_BakeBackend: 1
+    m_BakeBackend: 2
     m_PVRSampling: 1
     m_PVRDirectSampleCount: 32
     m_PVRSampleCount: 512
@@ -4854,6 +4854,76 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 23
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1187068377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a81bcacc415a1f743bfdf703afc52027, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  active: 1
+  m_AdvancedMode: 0
+  rotation:
+    m_OverrideState: 0
+    m_Value: 0
+    min: 0
+    max: 360
+  skyIntensityMode:
+    m_OverrideState: 0
+    m_Value: 0
+  exposure:
+    m_OverrideState: 0
+    m_Value: 0
+  multiplier:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
+  upperHemisphereLuxValue:
+    m_OverrideState: 0
+    m_Value: 1
+    min: 0
+  upperHemisphereLuxColor:
+    m_OverrideState: 0
+    m_Value: {x: 0, y: 0, z: 0}
+  desiredLuxValue:
+    m_OverrideState: 0
+    m_Value: 20000
+  updateMode:
+    m_OverrideState: 0
+    m_Value: 0
+  updatePeriod:
+    m_OverrideState: 0
+    m_Value: 0
+    min: 0
+  includeSunInBaking:
+    m_OverrideState: 0
+    m_Value: 0
+  top:
+    m_OverrideState: 0
+    m_Value: {r: 0, g: 0, b: 1, a: 1}
+    hdr: 1
+    showAlpha: 0
+    showEyeDropper: 1
+  middle:
+    m_OverrideState: 0
+    m_Value: {r: 0.3, g: 0.7, b: 1, a: 1}
+    hdr: 1
+    showAlpha: 0
+    showEyeDropper: 1
+  bottom:
+    m_OverrideState: 0
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
+    hdr: 1
+    showAlpha: 0
+    showEyeDropper: 1
+  gradientDiffusion:
+    m_OverrideState: 0
+    m_Value: 1
 --- !u!1 &1208150805
 GameObject:
   m_ObjectHideFlags: 0
@@ -5721,7 +5791,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 7797
   m_UseColorTemperature: 1
-  m_BoundingSphereOverride: {x: 0, y: 3.3665e-41, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 0, y: 5.628e-42, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -6294,7 +6364,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 7797
   m_UseColorTemperature: 1
-  m_BoundingSphereOverride: {x: 0, y: 2.0537e-41, z: 0, w: 4.947651e-10}
+  m_BoundingSphereOverride: {x: 0, y: 3.0386e-41, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -7075,76 +7145,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1507024731
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a81bcacc415a1f743bfdf703afc52027, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  active: 1
-  m_AdvancedMode: 0
-  rotation:
-    m_OverrideState: 0
-    m_Value: 0
-    min: 0
-    max: 360
-  skyIntensityMode:
-    m_OverrideState: 0
-    m_Value: 0
-  exposure:
-    m_OverrideState: 0
-    m_Value: 0
-  multiplier:
-    m_OverrideState: 0
-    m_Value: 1
-    min: 0
-  upperHemisphereLuxValue:
-    m_OverrideState: 0
-    m_Value: 1
-    min: 0
-  upperHemisphereLuxColor:
-    m_OverrideState: 0
-    m_Value: {x: 0, y: 0, z: 0}
-  desiredLuxValue:
-    m_OverrideState: 0
-    m_Value: 20000
-  updateMode:
-    m_OverrideState: 0
-    m_Value: 0
-  updatePeriod:
-    m_OverrideState: 0
-    m_Value: 0
-    min: 0
-  includeSunInBaking:
-    m_OverrideState: 0
-    m_Value: 0
-  top:
-    m_OverrideState: 0
-    m_Value: {r: 0, g: 0, b: 1, a: 1}
-    hdr: 1
-    showAlpha: 0
-    showEyeDropper: 1
-  middle:
-    m_OverrideState: 0
-    m_Value: {r: 0.3, g: 0.7, b: 1, a: 1}
-    hdr: 1
-    showAlpha: 0
-    showEyeDropper: 1
-  bottom:
-    m_OverrideState: 0
-    m_Value: {r: 1, g: 1, b: 1, a: 1}
-    hdr: 1
-    showAlpha: 0
-    showEyeDropper: 1
-  gradientDiffusion:
-    m_OverrideState: 0
-    m_Value: 1
 --- !u!1 &1561227157
 GameObject:
   m_ObjectHideFlags: 0
@@ -7317,7 +7317,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Profile: {fileID: 11400000, guid: 27c28b1b145a24b4aaae806c41173132, type: 2}
   m_StaticLightingSkyUniqueID: 3
-  m_SkySettings: {fileID: 1507024731}
+  m_SkySettings: {fileID: 1187068377}
   m_SkySettingsFromProfile: {fileID: -2090008000179990037, guid: 27c28b1b145a24b4aaae806c41173132,
     type: 2}
 --- !u!4 &1692859766
