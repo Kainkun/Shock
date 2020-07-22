@@ -15,6 +15,8 @@ public class Equipment : MonoBehaviour
 
     protected Camera mainCamera;
 
+    public Sprite Icon;
+
     protected virtual void Awake()
     {
 

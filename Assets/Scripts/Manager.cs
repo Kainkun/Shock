@@ -68,4 +68,9 @@ public class Manager : MonoBehaviour
         float t = InverseLerpUnclamped(iMin, iMax, v);
         return Mathf.LerpUnclamped(oMin, oMax, t);
     }
+
+    public static int mod(int x, int m)
+    {
+        return (x % m + m) % m;
+    }
 }

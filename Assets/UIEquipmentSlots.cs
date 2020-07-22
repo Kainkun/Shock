@@ -5,14 +5,14 @@ using UnityEngine.UI;
 
 public class UIEquipmentSlots : MonoBehaviour
 {
-    List<Image> slots;
+    List<(Image ImageUI, Equipment Equipment)> slots;
     GameObject slotImagePrefab;
 
     float nextSlotXPosition;
     public float widthBetweenSlots = 40;
     int maxSlots = 5;
 
-    Image CurrentSlot
+    public (Image ImageUI, Equipment Equipment) CurrentSlot
     {
         get { return slots[CurrentSlotIndex]; }
         set { slots[CurrentSlotIndex] = value; }
@@ -27,9 +27,16 @@ public class UIEquipmentSlots : MonoBehaviour
         }
         set
         {
-            CurrentSlot.color = Color.grey;
-            currentSlotIndex = value;
-            CurrentSlot.color = Color.white;
+            int v;
+
+            if (SlotCount == 0)
+                v = 0;
+            else
+                v = Manager.mod(value, SlotCount);
+
+            CurrentSlot.ImageUI.color = Color.grey;
+            currentSlotIndex = v;
+            CurrentSlot.ImageUI.color = Color.white;
         }
     }
 
@@ -60,7 +67,7 @@ public class UIEquipmentSlots : MonoBehaviour
     private void Awake()
     {
         slotImagePrefab = Resources.Load("Prefabs/EquipmentSlot") as GameObject;
-        slots = new List<Image>();
+        slots = new List<(Image ImageUI, Equipment Equipment)>();
         //slots = new List<Image>(GetComponentsInChildren<Image>());
     }
 
@@ -77,14 +84,18 @@ public class UIEquipmentSlots : MonoBehaviour
             SlotCount--;
     }
 
-    GameObject AddSlot()
+    public (Image ImageUI, Equipment Equipment) AddSlot(Equipment equipment = null)
     {
         if (SlotCount >= maxSlots)
-            return null;
+            return (null, null);
 
         GameObject addedSlot = Instantiate(slotImagePrefab, transform);
         Image image = addedSlot.GetComponent<Image>();
-        slots.Add(image);
+
+        if (equipment != null && equipment.Icon != null)
+            image.sprite = equipment.Icon;
+
+        slots.Add((image, equipment));
         image.color = Color.grey;
 
         addedSlot.transform.localPosition = new Vector3(nextSlotXPosition, 0, 0);
@@ -94,14 +105,14 @@ public class UIEquipmentSlots : MonoBehaviour
         v.x = Screen.width/2 - nextSlotXPosition / 3;
         transform.position = v;
 
-        return addedSlot;
+        return slots[slots.Count - 1];
     }
-    void RemoveSlot()
+    public void RemoveSlot()
     {
         if (SlotCount <= 0)
             return;
 
-        GameObject removedSlot = slots[slots.Count - 1].gameObject;
+        GameObject removedSlot = slots[slots.Count - 1].ImageUI.gameObject;
         slots.RemoveAt(slots.Count - 1);
         Destroy(removedSlot);
 

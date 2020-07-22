@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
 
     float xRotation = 0;
     Vector2 movementInput;
+    Transform equipmentPosition;
 
     public static Player instance;
     Rigidbody rb;
@@ -31,6 +32,7 @@ public class Player : MonoBehaviour
         if(GetComponentInChildren<Equipment>() != null)
             currentEquipment = GetComponentInChildren<Equipment>();
         rb = GetComponent<Rigidbody>();
+        equipmentPosition = GameObject.Find("EquipmentPosition").transform;
     }
 
     void Start()
@@ -43,7 +45,7 @@ public class Player : MonoBehaviour
 
         if (currentEquipment != null)
         {
-            Manager.uiEquipmentSlots.SlotCount = 1;
+            Manager.uiEquipmentSlots.AddSlot(currentEquipment);
             Manager.uiEquipmentSlots.CurrentSlotIndex = 0;
         }
     }
@@ -101,6 +103,26 @@ public class Player : MonoBehaviour
     {
         RaycastHit hit;
 
+        if(Input.GetKeyDown(KeyCode.E))
+        {
+            if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit, maxInteractDistance))
+            {
+                if (hit.collider.GetComponent<Equipment>())
+                {
+                    currentEquipment?.gameObject.SetActive(false);
+
+                    Manager.uiEquipmentSlots.AddSlot(hit.collider.GetComponent<Equipment>());
+                    Manager.uiEquipmentSlots.CurrentSlotIndex = Manager.uiEquipmentSlots.SlotCount - 1;
+
+                    currentEquipment = hit.collider.GetComponent<Equipment>();
+                    hit.collider.enabled = false;
+                    currentEquipment.transform.parent = equipmentPosition;
+                    currentEquipment.transform.localPosition = Vector3.zero;
+                    currentEquipment.transform.localRotation = Quaternion.identity;
+                }
+            }
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             if(Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit, maxInteractDistance))
@@ -112,16 +134,29 @@ public class Player : MonoBehaviour
                 }
             }
 
-            currentEquipment.Interact();
+            currentEquipment?.Interact();
         }
 
         if(Input.GetKeyDown(KeyCode.R))
         {
-            if(currentEquipment.GetComponent<Gun>())
+            if(currentEquipment && currentEquipment.GetComponent<Gun>())
             {
                 currentEquipment.GetComponent<Gun>().Reload();
             }
         }
+
+        if (Input.GetAxis("Mouse ScrollWheel") != 0 && Manager.uiEquipmentSlots.SlotCount > 0)
+        {
+            if (Input.GetAxis("Mouse ScrollWheel") > 0)
+                Manager.uiEquipmentSlots.CurrentSlotIndex--;
+            if (Input.GetAxis("Mouse ScrollWheel") < 0)
+                Manager.uiEquipmentSlots.CurrentSlotIndex++;
+
+            currentEquipment?.gameObject.SetActive(false);
+            currentEquipment = Manager.uiEquipmentSlots.CurrentSlot.Equipment;
+            currentEquipment?.gameObject.SetActive(true);
+        }
+
     }
     void Movement()
     {
