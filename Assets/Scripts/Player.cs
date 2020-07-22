@@ -111,6 +111,7 @@ public class Player : MonoBehaviour
                 {
                     currentEquipment?.gameObject.SetActive(false);
 
+                    hit.collider.GetComponent<Equipment>().enabled = true;
                     Manager.uiEquipmentSlots.AddSlot(hit.collider.GetComponent<Equipment>());
                     Manager.uiEquipmentSlots.CurrentSlotIndex = Manager.uiEquipmentSlots.SlotCount - 1;
 
@@ -120,20 +121,14 @@ public class Player : MonoBehaviour
                     currentEquipment.transform.localPosition = Vector3.zero;
                     currentEquipment.transform.localRotation = Quaternion.identity;
                 }
+
+                hit.collider.GetComponent<PhysicalButton>()?.Press();
+
             }
         }
 
         if (Input.GetMouseButtonDown(0))
         {
-            if(Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit, maxInteractDistance))
-            {
-                if (hit.collider.GetComponent<PhysicalButton>())
-                {
-                    hit.collider.GetComponent<PhysicalButton>().Press();
-                    return;
-                }
-            }
-
             currentEquipment?.Interact();
         }
 

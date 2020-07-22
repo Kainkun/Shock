@@ -25,10 +25,12 @@ public class Weapon : Equipment
 
         if (hit.transform.tag == "Critical")
         {
-            Destroy(Instantiate(critHitEffectPs, hit.point, Quaternion.identity), 5);
+            if(critHitEffectPs != null)
+                Destroy(Instantiate(critHitEffectPs, hit.point, Quaternion.identity), 5);
         }
         else
         {
+            if(hitEffectPs != null)
             Destroy(Instantiate(hitEffectPs, hit.point, Quaternion.identity), 5);
         }
             entity.TakeDamage(damage, hit, ray.direction);

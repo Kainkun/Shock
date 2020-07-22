@@ -45,13 +45,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b34cea531d37afe44851675de221eca8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  crosshairMoveSize: 1
-  crosshairSpeed: 1
-  maxInteractDistance: 3
+  crosshairMoveSize: 10
+  crosshairSpeed: 0.5
+  maxInteractDistance: 2
   currentCrosshairMovement: 3
   Icon: {fileID: 21300000, guid: a0e318a084007894c9fa2d616c855d7b, type: 3}
   damage: 25
-  hitEffectPs: {fileID: 0}
+  hitEffectPs: {fileID: 6864432093804288156, guid: 64bfc569ef1650f49bec83417cb17054,
+    type: 3}
   critHitEffectPs: {fileID: 0}
 --- !u!135 &1272692808407681466
 SphereCollider:

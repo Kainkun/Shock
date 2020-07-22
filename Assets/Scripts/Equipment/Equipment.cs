@@ -24,10 +24,10 @@ public class Equipment : MonoBehaviour
 
     protected virtual void Start()
     {
+        print(Manager.crosshairDot.IsActive());
         crosshairRect = Manager.crosshairDot.GetComponent<RectTransform>();
         noiseSeed = Random.Range(-10000,10000);
         mainCamera = Player.instance.mainCamera;
-        currentCrosshairMovement = Equipment.CrosshairMovementMode.Random;
     }
 
     protected virtual void Update()
