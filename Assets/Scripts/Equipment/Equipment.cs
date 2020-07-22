@@ -4,47 +4,24 @@ using UnityEngine;
 
 public class Equipment : MonoBehaviour
 {
-    RectTransform crosshairRect;
-    float noiseSeed;
 
-    public float crosshairMoveSize = 1;
-    public float crosshairSpeed = 1;
+    public CrosshairSetting crosshairSetting;
     public float maxInteractDistance = 10;
-    public enum CrosshairMovementMode { None, Hourglass, Horizontal, Random};
-    public CrosshairMovementMode currentCrosshairMovement;
+    public Sprite Icon;
 
     protected Camera mainCamera;
 
-    public Sprite Icon;
-
-    protected virtual void Awake()
-    {
-
-    }
-
+    protected virtual void Awake() { }
     protected virtual void Start()
     {
-        print(Manager.crosshairDot.IsActive());
-        crosshairRect = Manager.crosshairDot.GetComponent<RectTransform>();
-        noiseSeed = Random.Range(-10000,10000);
         mainCamera = Player.instance.mainCamera;
     }
-
-    protected virtual void Update()
+    protected virtual void Update() { }
+    protected virtual void OnEnable()
     {
-        CrosshairMovement();
+        CrosshairManager.currentCrosshairSetting = crosshairSetting;
     }
 
-    protected virtual void CrosshairMovement() {
-        if (currentCrosshairMovement == CrosshairMovementMode.Hourglass)
-            CrosshairFigureEight();
-        else if (currentCrosshairMovement == CrosshairMovementMode.Horizontal)
-            CrosshairHorizontal();
-        else if (currentCrosshairMovement == CrosshairMovementMode.Random)
-            CrosshairRandom();
-        else
-            crosshairRect.localPosition = Vector2.zero;
-    }
     public virtual void Interact() { }
 
     protected RaycastHit GetCrosshairHit()
@@ -54,7 +31,7 @@ public class Equipment : MonoBehaviour
     }
     protected RaycastHit GetCrosshairHit(out Ray outRay)
     {
-        Vector3 crosshairScreenPos = RectTransformUtility.WorldToScreenPoint(null, crosshairRect.position);
+        Vector3 crosshairScreenPos = RectTransformUtility.WorldToScreenPoint(null, CrosshairManager.crosshairRect.position);
         Ray ray = mainCamera.ScreenPointToRay(crosshairScreenPos);
         outRay = ray;
         Debug.DrawRay(ray.GetPoint(0), ray.direction, Color.yellow);
@@ -79,23 +56,6 @@ public class Equipment : MonoBehaviour
         else
             return new RaycastHit();
 
-    }
-
-
-
-    protected void CrosshairFigureEight()
-    {
-        crosshairRect.localPosition = crosshairMoveSize * new Vector2(Mathf.Sin(2 * Time.time * crosshairSpeed) / 3, Mathf.Cos(Time.time * crosshairSpeed));
-    }
-
-    protected void CrosshairRandom()
-    {
-        crosshairRect.localPosition = crosshairMoveSize * new Vector2(0.5f - Mathf.PerlinNoise(Time.time * crosshairSpeed, noiseSeed), 0.5f - Mathf.PerlinNoise(1000 + noiseSeed, Time.time * crosshairSpeed));
-    }
-
-    protected void CrosshairHorizontal()
-    {
-        crosshairRect.localPosition = crosshairMoveSize * new Vector2(Mathf.Sin(2 * Time.time * crosshairSpeed), 0);
     }
 
 }

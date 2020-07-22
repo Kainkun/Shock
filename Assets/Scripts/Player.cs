@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public CrosshairSetting crosshairSettingNone;
     public Vector2 mouseSensitivty = Vector2.one;
     float currentMoveSpeed;
     public float sneekSpeed = 50;
@@ -43,6 +44,7 @@ public class Player : MonoBehaviour
         currentHealth = maxHealth;
         currentMoveSpeed = walkSpeed;
 
+        CrosshairManager.currentCrosshairSetting = crosshairSettingNone;
         if (currentEquipment != null)
         {
             Manager.uiEquipmentSlots.AddSlot(currentEquipment);
@@ -60,11 +62,11 @@ public class Player : MonoBehaviour
         RaycastHit hit;
         if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit, maxInteractDistance))
             if (hit.collider.GetComponent<PhysicalButton>())
-                Manager.crosshairRing.color = Color.red;
+                CrosshairManager.RingColor(Color.red);
             else
-                Manager.crosshairRing.color = Color.white;
+                CrosshairManager.RingColor(Color.white);
         else
-            Manager.crosshairRing.color = Color.white;
+            CrosshairManager.RingColor(Color.white);
     }
 
     private void FixedUpdate()
@@ -150,6 +152,8 @@ public class Player : MonoBehaviour
             currentEquipment?.gameObject.SetActive(false);
             currentEquipment = Manager.uiEquipmentSlots.CurrentSlot.Equipment;
             currentEquipment?.gameObject.SetActive(true);
+            if(!currentEquipment)
+                CrosshairManager.currentCrosshairSetting = crosshairSettingNone;
         }
 
     }
@@ -199,12 +203,9 @@ public class Player : MonoBehaviour
         if (mouseSensitivty.y < 1)
             mouseSensitivty.y = 1;
     }
-    public void CrosshairSpeed(float x) {currentEquipment.crosshairSpeed = Mathf.Max(0, currentEquipment.crosshairSpeed + x) ; }
-    public void CrosshairSize(float x) {currentEquipment.crosshairMoveSize = Mathf.Max(0, currentEquipment.crosshairMoveSize + x); }
-    public void SetCrosshairMovementMode(int x)
-    {
-        currentEquipment.currentCrosshairMovement = (Equipment.CrosshairMovementMode)x;
-    }
+    public void CrosshairSpeed(float x) => currentEquipment.crosshairSetting.speed = Mathf.Max(0, currentEquipment.crosshairSetting.speed + x);
+    public void CrosshairSize(float x) => currentEquipment.crosshairSetting.moveSize = Mathf.Max(0, currentEquipment.crosshairSetting.moveSize + x);
+    public void SetCrosshairMovementMode(int x) => currentEquipment.crosshairSetting.movementPattern = (CrosshairManager.CrosshairMovementPattern)x;
 
 
 }

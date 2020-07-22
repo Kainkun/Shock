@@ -6,8 +6,6 @@ public class Rifle : Gun
 {
     private void Reset()
     {
-        crosshairMoveSize = 30;
-        crosshairSpeed = 3;
         maxInteractDistance = 100;
     }
 

@@ -3,7 +3,12 @@ guid: 9dd6dfd4b624a394b87574a817deaeb2
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - crosshairSetting: {instanceID: 0}
+  - Icon: {instanceID: 0}
+  - hitEffectPs: {instanceID: 0}
+  - critHitEffectPs: {instanceID: 0}
+  - shootPoint: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

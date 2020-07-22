@@ -236,6 +236,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b46b741286518dc488193f8ff3e2ed5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  crosshairSettingNone: {fileID: 11400000, guid: 2808a7d1a1db41b4195ff3c414ccfe9a,
+    type: 2}
   mouseSensitivty: {x: 50, y: 50}
   sneekSpeed: 50
   walkSpeed: 200
