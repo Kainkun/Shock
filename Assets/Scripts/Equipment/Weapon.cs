@@ -8,16 +8,6 @@ public class Weapon : Equipment
     public GameObject hitEffectPs;
     public GameObject critHitEffectPs;
 
-    protected override void Start()
-    {
-        base.Start();
-    }
-
-    protected override void Update()
-    {
-        base.Update();
-    }
-
     public void DamageEntity(RaycastHit hit, Ray ray)
     {
         var entity = hit.transform.root.GetComponent<Entity>();

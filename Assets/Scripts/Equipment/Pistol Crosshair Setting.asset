@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d399053eb07b29142be80e0d93ab76e8, type: 3}
   m_Name: Pistol Crosshair Setting
   m_EditorClassIdentifier: 
-  moveSize: 3
+  moveSize: 20
   speed: 1.5
   movementPattern: 1

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Manager : MonoBehaviour
 {
@@ -12,8 +13,9 @@ public class Manager : MonoBehaviour
 
     public static UIEquipmentSlots uiEquipmentSlots;
 
-    public static Text ammoCountUI;
-    public static Image damageBlink;
+    static Text ammoCountUI;
+    static Text healthUI;
+    static Image damageBlink;
 
 
     private void Awake()
@@ -26,26 +28,41 @@ public class Manager : MonoBehaviour
         uiEquipmentSlots = uiCanvas.GetComponentInChildren<UIEquipmentSlots>();
 
         ammoCountUI = uiCanvas.transform.Find("AmmoCount").GetComponent<Text>();
+        healthUI = uiCanvas.transform.Find("Health").GetComponent<Text>();
         damageBlink = uiCanvas.transform.Find("DamageBlink").GetComponent<Image>();
     }
 
-    void Start()
-    {
 
+    #region "UI Functions"
+    public static void SetAmmoCountUI(float current, float total)
+    {
+        ammoCountUI.text = "Ammo: " + current + "/" + total;
     }
 
-
-    void Update()
+    public static void SetHealthUI(float current)
     {
-
+        healthUI.text = "Health: " + current;
     }
 
+    public static void SetDeadScreen()
+    {
+        damageBlink.enabled = true;
+    }
     public static IEnumerator DamageBlink()
     {
         damageBlink.enabled = true;
         yield return new WaitForSeconds(0.1f);
-        damageBlink.enabled = false;
+        if(!Player.instance.dead)
+            damageBlink.enabled = false;
     }
+    #endregion
+
+    #region "Scene Management"
+    public static void LoadScene(int i) => SceneManager.LoadScene(i);
+    public static void ReloadScene() => SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    #endregion
+
+    #region "Useful Functions"
 
     public static float InverseLerpUnclamped(float a, float b, float v)
     {
@@ -68,4 +85,5 @@ public class Manager : MonoBehaviour
     {
         return (x % m + m) % m;
     }
+    #endregion
 }

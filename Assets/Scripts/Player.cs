@@ -17,7 +17,7 @@ public class Player : MonoBehaviour
     public float maxInteractDistance = 20;
     public float maxHealth = 100;
     float currentHealth;
-    bool dead;
+    public bool dead;
     public GameObject[] startingEquipment;
 
     float xRotation = 0;
@@ -44,6 +44,7 @@ public class Player : MonoBehaviour
         Cursor.visible = false;
 
         currentHealth = maxHealth;
+        Manager.SetHealthUI(currentHealth);
         currentMoveSpeed = walkSpeed;
 
         for (int i = 0; i < startingEquipment.Length; i++)
@@ -66,7 +67,10 @@ public class Player : MonoBehaviour
         {
             Manager.uiEquipmentSlots.CurrentSlotIndex = 0;
             if (Manager.uiEquipmentSlots.CurrentSlot.Equipment != null)
+            {
                 currentEquipment = Manager.uiEquipmentSlots.CurrentSlot.Equipment;
+                CrosshairManager.currentCrosshairSetting = currentEquipment.crosshairSetting;
+            }
             else
                 CrosshairManager.currentCrosshairSetting = crosshairSettingNone;
         }
@@ -81,18 +85,22 @@ public class Player : MonoBehaviour
 
     protected void Update()
     {
-        MouseLook();
-        MovementInput();
-        InteractionInput();
+        if (!dead)
+        {
+            MouseLook();
+            MovementInput();
+            InteractionInput();
 
-        RaycastHit hit;
-        if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit, maxInteractDistance))
-            if (hit.collider.GetComponent<PhysicalButton>())
-                CrosshairManager.RingColor(Color.red);
+            RaycastHit hit;
+            if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit, maxInteractDistance))
+                if (hit.collider.GetComponent<PhysicalButton>() || hit.collider.GetComponent<Equipment>())
+                    CrosshairManager.RingColor(Color.red);
+                else
+                    CrosshairManager.RingColor(Color.white);
             else
                 CrosshairManager.RingColor(Color.white);
-        else
-            CrosshairManager.RingColor(Color.white);
+        }
+
     }
 
     private void FixedUpdate()
@@ -204,20 +212,28 @@ public class Player : MonoBehaviour
 
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-        if (currentHealth == 0)
+        Manager.SetHealthUI(currentHealth);
+        if (currentHealth <= 0)
             Die();
     }
     public void Heal(float heal)
     {
         currentHealth += heal;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+        Manager.SetHealthUI(currentHealth);
     }
     void Die()
     {
         if (dead)
             return;
+        Manager.SetDeadScreen();
         dead = true;
-
+        StartCoroutine(DieCoroutine());
+    }
+    IEnumerator DieCoroutine()
+    {
+        yield return new WaitForSeconds(2);
+        Manager.ReloadScene();
     }
 
     public void Sensitivity(float x)

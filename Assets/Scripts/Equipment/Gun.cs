@@ -24,7 +24,7 @@ public class Gun : Weapon
                 CurrentAmmoCount = 0;
             else
                 currentMagazineCount = value;
-            Manager.ammoCountUI.text = "Ammo: " + value + "/" + CurrentAmmoCount;
+            Manager.SetAmmoCountUI(currentMagazineCount, currentAmmoCount);
         }
     }
 
@@ -37,7 +37,7 @@ public class Gun : Weapon
                 CurrentAmmoCount = 0;
             else
                 currentAmmoCount = value;
-            Manager.ammoCountUI.text = "Ammo: " + CurrentMagazineCount + "/" + value;
+            Manager.SetAmmoCountUI(currentMagazineCount, currentAmmoCount);
         }
     }
 
@@ -52,7 +52,7 @@ public class Gun : Weapon
     {
         CurrentMagazineCount = magazineCapacity;
 
-        Manager.ammoCountUI.text = "Ammo: " + CurrentMagazineCount + "/" + CurrentAmmoCount;
+        Manager.SetAmmoCountUI(currentMagazineCount, currentAmmoCount);
 
         base.Start();
     }

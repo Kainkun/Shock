@@ -46,12 +46,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   crosshairSetting: {fileID: 11400000, guid: 45469ba30d5ca8a4cada113cf5e3fcf4, type: 2}
-  maxInteractDistance: 2
+  maxInteractDistance: 1
   Icon: {fileID: 21300000, guid: a0e318a084007894c9fa2d616c855d7b, type: 3}
   damage: 25
   hitEffectPs: {fileID: 6864432093804288156, guid: 64bfc569ef1650f49bec83417cb17054,
     type: 3}
   critHitEffectPs: {fileID: 0}
+  swingTime: 0.5
 --- !u!135 &1272692808407681466
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -64,7 +65,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
-  m_Center: {x: 0, y: 0.26, z: 0.41}
+  m_Center: {x: 0, y: 0.26, z: 0.16}
 --- !u!1 &1272692808539365102
 GameObject:
   m_ObjectHideFlags: 0
