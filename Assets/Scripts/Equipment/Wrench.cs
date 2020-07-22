@@ -40,4 +40,10 @@ public class Wrench : Weapon
         swinging = false;
     }
 
+    private void OnDisable()
+    {
+        animator.Play("Idle");
+        swinging = false;
+    }
+
 }

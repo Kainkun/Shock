@@ -111,4 +111,9 @@ public class Gun : Weapon
         yield return new WaitForSeconds(0.03f);
         lr.enabled = false;
     }
+    private void OnDisable()
+    {
+        animator.Play("PistolIdle");
+        reloading = false;
+    }
 }
