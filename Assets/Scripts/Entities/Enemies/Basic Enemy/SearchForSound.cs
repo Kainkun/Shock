@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class SearchForPlayer : State
+public class SearchForSound : State
 {
     readonly BasicEnemy basicEnemy;
     public float searchTime;
@@ -13,16 +13,20 @@ public class SearchForPlayer : State
     float currentRadius;
     Vector3 mainSearchPosition;
 
-    public SearchForPlayer(BasicEnemy basicEnemy)
+    public SearchForSound(BasicEnemy basicEnemy)
     {
         this.basicEnemy = basicEnemy;
     }
 
     public void Tick()
     {
+        if(basicEnemy.Hearing())
+        {
+            OnEnter();
+        }
 
         searchTime += Time.deltaTime;
-        basicEnemy.navMeshAgent.speed = Manager.Remap(basicEnemy.maxSearchTime - 5, basicEnemy.maxSearchTime, basicEnemy.chaseSpeed, startingMoveSpeed, searchTime);
+        basicEnemy.navMeshAgent.speed = Manager.Remap(basicEnemy.maxSearchTime - 5, basicEnemy.maxSearchTime, basicEnemy.alertSpeed, startingMoveSpeed, searchTime);
 
         Vector3 localVelocity = basicEnemy.transform.InverseTransformDirection(basicEnemy.navMeshAgent.velocity);
         basicEnemy.animator.SetFloat("ForwardSpeed", localVelocity.z / basicEnemy.chaseSpeed);
@@ -42,10 +46,9 @@ public class SearchForPlayer : State
     {
         basicEnemy.navMeshAgent.enabled = true;
         startingMoveSpeed = basicEnemy.navMeshAgent.speed;
-        basicEnemy.navMeshAgent.speed = basicEnemy.chaseSpeed;
         searchTime = 0;
         currentRadius = 2;
-        mainSearchPosition = Player.instance.transform.position + (Player.instance.transform.position - basicEnemy.transform.position).normalized * 2;
+        mainSearchPosition = basicEnemy.lastHeardSoundPosition;
         GoToRandomPlaceWithinRadius(2, mainSearchPosition);
     }
     public void OnExit()

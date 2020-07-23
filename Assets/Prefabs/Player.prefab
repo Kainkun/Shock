@@ -241,7 +241,7 @@ MonoBehaviour:
   mouseSensitivty: {x: 50, y: 50}
   sneekSpeed: 50
   walkSpeed: 150
-  sprintSpeed: 400
+  sprintSpeed: 200
   jumpforce: 300
   maxInteractDistance: 20
   maxHealth: 100

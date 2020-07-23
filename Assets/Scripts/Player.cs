@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
     public Camera mainCamera;
     float movementSoundDistance;
     float EquipmentSoundDistance;
+    public float movementSoundMultiplyer = 2;
 
     private void Awake()
     {
@@ -145,6 +146,11 @@ public class Player : MonoBehaviour
             currentMoveSpeed = sneekSpeed;
         else
             currentMoveSpeed = walkSpeed;
+
+        if(movementInput.magnitude > 0)
+        {
+            movementSoundDistance = currentMoveSpeed/100 * movementSoundMultiplyer;
+        }
     }
     void InteractionInput()
     {
@@ -205,9 +211,6 @@ public class Player : MonoBehaviour
         vel = currentMoveSpeed * Time.fixedDeltaTime * ((transform.forward * movementInput.y) + (transform.right * movementInput.x));
         vel.y = rb.velocity.y;
         rb.velocity = vel;
-
-        vel.y = 0;
-        movementSoundDistance = vel.magnitude * 2;
     }
     void Jump()
     {

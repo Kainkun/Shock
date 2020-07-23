@@ -310,6 +310,7 @@ MonoBehaviour:
   navMeshAgent: {fileID: 0}
   animator: {fileID: 0}
   chaseSpeed: 3
+  alertSpeed: 1.5
   chaseAcceleration: 1
   attackMoveSpeed: 2
   attackTime: 2
@@ -323,6 +324,8 @@ MonoBehaviour:
   wanderArea: {fileID: 0}
   wanderAcceleration: 5
   maxSearchTime: 15
+  casualSearchTime: 5
+  lastHeardSoundPosition: {x: 0, y: 0, z: 0}
 --- !u!1 &4138019701042982988
 GameObject:
   m_ObjectHideFlags: 0

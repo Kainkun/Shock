@@ -11,6 +11,7 @@ public class BasicEnemy : Entity
     [HideInInspector]
     public Animator animator;
     public float chaseSpeed = 3;
+    public float alertSpeed = 1.5f;
     public float chaseAcceleration = 0.1f;
     public float attackMoveSpeed = 0.5f;
     public float attackTime = 2;
@@ -27,6 +28,9 @@ public class BasicEnemy : Entity
     public BoxCollider wanderArea;
     public float wanderAcceleration = 5;
     public float maxSearchTime = 10;
+    public float casualSearchTime = 5;
+    [HideInInspector]
+    public Vector3 lastHeardSoundPosition;
 
     private void Awake()
     {
@@ -53,17 +57,18 @@ public class BasicEnemy : Entity
         var wander = new Wander(this);
         var wanderInArea = new WanderInArea(this);
         var searchForPlayer = new SearchForPlayer(this);
+        var searchForSound = new SearchForSound(this);
 
         //TRANSITIONS
         AT(idle, chasePlayer, SeePlayer());
         AT(wander, chasePlayer, SeePlayer());
         AT(wanderInArea, chasePlayer, SeePlayer());
         AT(searchForPlayer, chasePlayer, SeePlayer());
+        AT(searchForSound, chasePlayer, SeePlayer());
 
-        AT(idle, searchForPlayer, HearsPlayer());
-        AT(wander, searchForPlayer, HearsPlayer());
-        AT(wanderInArea, searchForPlayer, HearsPlayer());
-        AT(searchForPlayer, chasePlayer, HearsPlayer());
+        AT(idle, searchForSound, HearsPlayer());
+        AT(wander, searchForSound, HearsPlayer());
+        AT(wanderInArea, searchForSound, HearsPlayer());
 
         AT(chasePlayer, attack, InAttackRange());
         AT(attack, wanderInArea, AttackDone());
@@ -90,7 +95,7 @@ public class BasicEnemy : Entity
         Func<bool> SeePlayer() => () => RayHitsPlayer() && Vector3.Angle(eyesPosition.forward, Player.instance.mainCamera.transform.position - eyesPosition.position) < sightFOV;
         Func<bool> CantFindPlayer() => () => !RayHitsPlayer();
         Func<bool> SearchOver() => () =>  searchForPlayer.searchTime >= maxSearchTime;
-        Func<bool> HearsPlayer() => () => Player.instance.GetLoudestSoundDistance() > Manager.CalculatePathLength(navMeshAgent, Player.instance.transform.position);
+        Func<bool> HearsPlayer() => () => Hearing();
 
     }
 
@@ -101,7 +106,6 @@ public class BasicEnemy : Entity
         Vector3 localVelocity = transform.InverseTransformDirection(navMeshAgent.velocity);
         animator.SetFloat("ForwardSpeed", localVelocity.z / chaseSpeed);
     }
-
     bool RayHitsPlayer()
     {
         /*Debug.DrawRay(eyesPosition.position, eyesPosition.forward, Color.white);
@@ -116,6 +120,16 @@ public class BasicEnemy : Entity
                 return true;
             }
         }
+        return false;
+    }
+    public bool Hearing()
+    {
+        if(Player.instance.GetLoudestSoundDistance() > Manager.CalculatePathLength(navMeshAgent, Player.instance.transform.position))
+        {
+            lastHeardSoundPosition = Player.instance.transform.position;
+            return true;
+        }
+
         return false;
     }
 
