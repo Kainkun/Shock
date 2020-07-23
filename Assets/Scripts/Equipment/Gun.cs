@@ -70,7 +70,7 @@ public class Gun : Weapon
             return;
 
         animator.SetTrigger("Shoot");
-
+        Player.instance.MakeEquipmentSound(interactionLoudnessDistance);
         CurrentMagazineCount--;
 
         Ray ray;

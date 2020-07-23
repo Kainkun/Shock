@@ -240,11 +240,14 @@ MonoBehaviour:
     type: 2}
   mouseSensitivty: {x: 50, y: 50}
   sneekSpeed: 50
-  walkSpeed: 200
+  walkSpeed: 150
   sprintSpeed: 400
   jumpforce: 300
   maxInteractDistance: 20
   maxHealth: 100
+  dead: 0
+  startingEquipment: []
+  currentEquipment: {fileID: 0}
   mainCamera: {fileID: 1854325181538710211}
 --- !u!136 &1854325182474160347
 CapsuleCollider:

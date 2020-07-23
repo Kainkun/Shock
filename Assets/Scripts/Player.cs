@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Player : MonoBehaviour
 {
@@ -17,8 +18,10 @@ public class Player : MonoBehaviour
     public float maxInteractDistance = 20;
     public float maxHealth = 100;
     float currentHealth;
+    [HideInInspector]
     public bool dead;
     public GameObject[] startingEquipment;
+    [HideInInspector]
 
     float xRotation = 0;
     Vector2 movementInput;
@@ -28,6 +31,8 @@ public class Player : MonoBehaviour
     Rigidbody rb;
     [HideInInspector]
     public Camera mainCamera;
+    float movementSoundDistance;
+    float EquipmentSoundDistance;
 
     private void Awake()
     {
@@ -41,6 +46,8 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+        monster = GameObject.Find("Monster").GetComponent<NavMeshAgent>();
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
@@ -83,9 +90,10 @@ public class Player : MonoBehaviour
         }*/
     }
 
-
+     NavMeshAgent monster;
     protected void Update()
     {
+
         if (!dead)
         {
             MouseLook();
@@ -106,8 +114,10 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Movement();
-        
+        if (!dead)
+        {
+            Movement();
+        }
     }
 
     void MouseLook()
@@ -195,6 +205,9 @@ public class Player : MonoBehaviour
         vel = currentMoveSpeed * Time.fixedDeltaTime * ((transform.forward * movementInput.y) + (transform.right * movementInput.x));
         vel.y = rb.velocity.y;
         rb.velocity = vel;
+
+        vel.y = 0;
+        movementSoundDistance = vel.magnitude * 2;
     }
     void Jump()
     {
@@ -234,6 +247,28 @@ public class Player : MonoBehaviour
         Manager.ReloadScene();
     }
 
+    public void MakeEquipmentSound(float volume)
+    {
+        if(currentEquipmentSound != null)
+            StopCoroutine(currentEquipmentSound);
+        currentEquipmentSound = StartCoroutine(EquipmentSound(volume));
+    }
+
+    Coroutine currentEquipmentSound;
+    IEnumerator EquipmentSound(float volume)
+    {
+        EquipmentSoundDistance = volume;
+        yield return new WaitForSeconds(0.2f);
+        EquipmentSoundDistance = 0;
+    }
+
+    public float GetLoudestSoundDistance()
+    {
+        return movementSoundDistance > EquipmentSoundDistance ? movementSoundDistance : EquipmentSoundDistance;
+
+            
+    }
+
     public void Sensitivity(float x)
     {
         mouseSensitivty.x = Mathf.Max(10, mouseSensitivty.x + x);
@@ -247,5 +282,10 @@ public class Player : MonoBehaviour
     public void CrosshairSize(float x) => currentEquipment.crosshairSetting.moveSize = Mathf.Max(0, currentEquipment.crosshairSetting.moveSize + x);
     public void SetCrosshairMovementMode(int x) => currentEquipment.crosshairSetting.movementPattern = (CrosshairManager.CrosshairMovementPattern)x;
 
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, GetLoudestSoundDistance());
+    }
 
 }

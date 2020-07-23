@@ -21,6 +21,7 @@ public class BasicEnemy : Entity
     Collider playerMovementCollider;
     public float sightFOV = 45;
     public float sightDistance = 10;
+    public float hearingSensitivity = 0.5f;
     Transform eyesPosition;
     [HideInInspector]
     public BoxCollider wanderArea;
@@ -59,6 +60,11 @@ public class BasicEnemy : Entity
         AT(wanderInArea, chasePlayer, SeePlayer());
         AT(searchForPlayer, chasePlayer, SeePlayer());
 
+        AT(idle, searchForPlayer, HearsPlayer());
+        AT(wander, searchForPlayer, HearsPlayer());
+        AT(wanderInArea, searchForPlayer, HearsPlayer());
+        AT(searchForPlayer, chasePlayer, HearsPlayer());
+
         AT(chasePlayer, attack, InAttackRange());
         AT(attack, wanderInArea, AttackDone());
         AT(chasePlayer, searchForPlayer, CantFindPlayer());
@@ -78,12 +84,14 @@ public class BasicEnemy : Entity
         Func<bool> Dead() => () => currentHealth <= 0;
         Func<bool> PlayerMissing() => () => Player.instance == null;
         Func<bool> PlayerIsClose() => () => Vector3.Distance(transform.position, Player.instance.transform.position) < 7;
-        Func<bool> LoseAgro() => () => Vector3.Distance(transform.position, Player.instance.transform.position) > 10;
+        Func<bool> LoseAgro() => () => Vector3.Distance(transform.position, Player.instance.transform.position) > 50;
         Func<bool> AttackDone() => () => attack.time >= attackTime;
         Func<bool> InAttackRange() => () => Vector3.Distance(transform.position, Player.instance.transform.position) < attackAttemptRange;
         Func<bool> SeePlayer() => () => RayHitsPlayer() && Vector3.Angle(eyesPosition.forward, Player.instance.mainCamera.transform.position - eyesPosition.position) < sightFOV;
         Func<bool> CantFindPlayer() => () => !RayHitsPlayer();
         Func<bool> SearchOver() => () =>  searchForPlayer.searchTime >= maxSearchTime;
+        Func<bool> HearsPlayer() => () => Player.instance.GetLoudestSoundDistance() > Manager.CalculatePathLength(navMeshAgent, Player.instance.transform.position);
+
     }
 
     void Update() => stateMachine.Tick();

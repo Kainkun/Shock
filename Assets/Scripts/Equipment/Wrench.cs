@@ -24,6 +24,8 @@ public class Wrench : Weapon
 
         if (hit.transform)
         {
+            Player.instance.MakeEquipmentSound(interactionLoudnessDistance);
+
             if (hit.transform.root.GetComponent<Entity>()) //if entity, deal damage
             {
                 DamageEntity(hit, ray);

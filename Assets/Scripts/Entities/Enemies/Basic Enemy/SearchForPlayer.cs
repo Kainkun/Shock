@@ -20,6 +20,8 @@ public class SearchForPlayer : State
 
     public void Tick()
     {
+        Debug.Log(searchTime);
+
         searchTime += Time.deltaTime;
         basicEnemy.navMeshAgent.speed = Manager.Remap(basicEnemy.maxSearchTime - 5, basicEnemy.maxSearchTime, basicEnemy.chaseSpeed, startingMoveSpeed, searchTime);
 

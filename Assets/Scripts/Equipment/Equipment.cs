@@ -9,6 +9,7 @@ public class Equipment : MonoBehaviour
     public float maxInteractDistance = 10;
     public Sprite Icon;
     public Animator animator;
+    public float interactionLoudnessDistance;
 
     protected Camera mainCamera;
 
