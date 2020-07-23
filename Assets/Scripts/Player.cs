@@ -94,6 +94,11 @@ public class Player : MonoBehaviour
      NavMeshAgent monster;
     protected void Update()
     {
+        if (Input.GetMouseButtonDown(0) && (Cursor.lockState != CursorLockMode.Locked || Cursor.visible != false))
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
 
         if (!dead)
         {

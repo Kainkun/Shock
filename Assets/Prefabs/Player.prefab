@@ -249,6 +249,7 @@ MonoBehaviour:
   startingEquipment: []
   currentEquipment: {fileID: 0}
   mainCamera: {fileID: 1854325181538710211}
+  movementSoundMultiplyer: 2
 --- !u!136 &1854325182474160347
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -365,7 +366,7 @@ MonoBehaviour:
         asm: Unity.RenderPipelines.HighDefinition.Runtime}
       data:
         m_Name: FPS pass transparent
-        enabled: 1
+        enabled: 0
         targetColorBuffer: 0
         targetDepthBuffer: 0
         clearFlags: 0
@@ -392,7 +393,7 @@ MonoBehaviour:
         asm: Unity.RenderPipelines.HighDefinition.Runtime}
       data:
         m_Name: FPS pass
-        enabled: 1
+        enabled: 0
         targetColorBuffer: 0
         targetDepthBuffer: 0
         clearFlags: 0
