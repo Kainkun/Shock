@@ -24,13 +24,17 @@ public class BasicEnemy : Entity
     public float sightDistance = 10;
     public float hearingSensitivity = 0.5f;
     Transform eyesPosition;
+    BoxCollider wanderArea;
     [HideInInspector]
-    public BoxCollider wanderArea;
+    public Vector3 wanderAreaBoundsMin;
+    [HideInInspector]
+    public Vector3 wanderAreaBoundsMax;
     public float wanderAcceleration = 5;
     public float maxSearchTime = 10;
     public float casualSearchTime = 5;
     [HideInInspector]
     public Vector3 lastHeardSoundPosition;
+    public float forwardAnimationLerpSpeed = 1;
 
     private void Awake()
     {
@@ -46,6 +50,7 @@ public class BasicEnemy : Entity
         eyesPosition = GetComponentInChildren<EyesLocation>().transform;
         wanderArea = GetComponentInChildren<BoxCollider>();
         wanderArea.transform.parent = null;
+        SetBoxBounds(wanderArea, out wanderAreaBoundsMin, out wanderAreaBoundsMax);
 
         stateMachine = new StateMachine();
 
@@ -80,7 +85,7 @@ public class BasicEnemy : Entity
 
         //ANY TRANSITIONS
         stateMachine.AddAnyTransition(dead, Dead());
-        stateMachine.AddAnyTransition(idle, PlayerMissing());
+        //stateMachine.AddAnyTransition(idle, PlayerMissing());
 
         //BEGINNING STATE
         stateMachine.SetState(wanderInArea);
@@ -104,7 +109,8 @@ public class BasicEnemy : Entity
     public void SetMovementAnimation()
     {
         Vector3 localVelocity = transform.InverseTransformDirection(navMeshAgent.velocity);
-        animator.SetFloat("ForwardSpeed", localVelocity.z / chaseSpeed);
+
+        animator.SetFloat("ForwardSpeed", Mathf.Lerp(animator.GetFloat("ForwardSpeed"), localVelocity.z / chaseSpeed, Time.deltaTime * forwardAnimationLerpSpeed));
     }
     bool RayHitsPlayer()
     {
@@ -131,6 +137,14 @@ public class BasicEnemy : Entity
         }
 
         return false;
+    }
+
+    void SetBoxBounds(BoxCollider col, out Vector3 boundsMin, out Vector3 boundsMax)
+    {
+        wanderArea.enabled = true;
+        boundsMin = wanderArea.bounds.min;
+        boundsMax = wanderArea.bounds.max;
+        wanderArea.enabled = false;
     }
 
     private void OnDrawGizmosSelected()

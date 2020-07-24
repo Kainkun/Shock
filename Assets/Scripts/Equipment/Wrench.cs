@@ -44,7 +44,6 @@ public class Wrench : Weapon
 
     private void OnDisable()
     {
-        animator.Play("Idle");
         swinging = false;
     }
 

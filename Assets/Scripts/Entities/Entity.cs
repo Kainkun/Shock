@@ -5,7 +5,8 @@ using UnityEngine;
 public class Entity : MonoBehaviour
 {
     public float maxHealth;
-    protected float currentHealth;
+    [HideInInspector]
+    public float currentHealth;
     [HideInInspector]
     public Vector3 lastHitDirection;
     public float critMultiplier = 2;

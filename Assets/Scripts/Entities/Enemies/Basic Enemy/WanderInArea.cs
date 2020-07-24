@@ -59,7 +59,7 @@ public class WanderInArea : State
 
     Vector3 GetRandomValidPositionInArea()
     {
-        Vector3 randInArea = RandomWithinBox(basicEnemy.wanderArea);
+        Vector3 randInArea = RandomWithinBox(basicEnemy.wanderAreaBoundsMin, basicEnemy.wanderAreaBoundsMax);
         randInArea.y = basicEnemy.transform.position.y;
 
         NavMeshHit hit;
@@ -72,12 +72,12 @@ public class WanderInArea : State
     }
 
 
-    Vector3 RandomWithinBox(BoxCollider box)
+    Vector3 RandomWithinBox(Vector3 boundsMin, Vector3 boundsMax)
     {
         Vector3 v = new Vector3();
-        v.x = Random.Range(box.bounds.min.x, box.bounds.max.x);
-        v.y = Random.Range(box.bounds.min.y, box.bounds.max.y);
-        v.z = Random.Range(box.bounds.min.z, box.bounds.max.z);
+        v.x = Random.Range(boundsMin.x, boundsMax.x);
+        v.y = Random.Range(boundsMin.y, boundsMax.y);
+        v.z = Random.Range(boundsMin.z, boundsMax.z);
         return v;
     }
 

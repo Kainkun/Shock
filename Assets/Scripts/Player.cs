@@ -100,34 +100,31 @@ public class Player : MonoBehaviour
             Cursor.visible = false;
         }
 
-        if (!dead)
-        {
-            MouseLook();
-            MovementInput();
-            InteractionInput();
+        MouseLook();
+        MovementInput();
+        InteractionInput();
 
-            RaycastHit hit;
-            if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit, maxInteractDistance))
-                if (hit.collider.GetComponent<PhysicalButton>() || hit.collider.GetComponent<Equipment>())
-                    CrosshairManager.RingColor(Color.red);
-                else
-                    CrosshairManager.RingColor(Color.white);
+        RaycastHit hit;
+        if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit, maxInteractDistance))
+            if (hit.collider.GetComponent<PhysicalButton>() || hit.collider.GetComponent<Equipment>())
+                CrosshairManager.RingColor(Color.red);
             else
                 CrosshairManager.RingColor(Color.white);
-        }
+        else
+            CrosshairManager.RingColor(Color.white);
 
     }
 
     private void FixedUpdate()
     {
-        if (!dead)
-        {
-            Movement();
-        }
+        Movement();
     }
 
     void MouseLook()
     {
+        if (dead)
+            return;
+
         float mouseX = mouseSensitivty.x * Input.GetAxis("Mouse X") * Time.deltaTime;
         float mouseY = mouseSensitivty.y * Input.GetAxis("Mouse Y") * Time.deltaTime;
 
@@ -139,6 +136,12 @@ public class Player : MonoBehaviour
     }
     void MovementInput()
     {
+        if(dead)
+        {
+            movementInput = Vector2.zero;
+            return;
+        }
+
         movementInput.x = Input.GetAxis("Horizontal");
         movementInput.y = Input.GetAxis("Vertical");
         movementInput = Vector2.ClampMagnitude(movementInput, 1);
@@ -152,13 +155,16 @@ public class Player : MonoBehaviour
         else
             currentMoveSpeed = walkSpeed;
 
-        if(movementInput.magnitude > 0)
-        {
-            movementSoundDistance = currentMoveSpeed/100 * movementSoundMultiplyer;
-        }
+        if (movementInput.magnitude > 0)
+            movementSoundDistance = currentMoveSpeed / 100 * movementSoundMultiplyer;
+        else
+            movementSoundDistance = 0;
     }
     void InteractionInput()
     {
+        if (dead)
+            return;
+
         RaycastHit hit;
 
         if(Input.GetKeyDown(KeyCode.E))
@@ -272,9 +278,7 @@ public class Player : MonoBehaviour
 
     public float GetLoudestSoundDistance()
     {
-        return movementSoundDistance > EquipmentSoundDistance ? movementSoundDistance : EquipmentSoundDistance;
-
-            
+        return movementSoundDistance > EquipmentSoundDistance ? movementSoundDistance : EquipmentSoundDistance;       
     }
 
     public void Sensitivity(float x)
@@ -292,6 +296,7 @@ public class Player : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
+
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, GetLoudestSoundDistance());
     }

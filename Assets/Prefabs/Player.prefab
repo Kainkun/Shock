@@ -241,7 +241,7 @@ MonoBehaviour:
   mouseSensitivty: {x: 50, y: 50}
   sneekSpeed: 50
   walkSpeed: 150
-  sprintSpeed: 200
+  sprintSpeed: 250
   jumpforce: 300
   maxInteractDistance: 20
   maxHealth: 100
@@ -249,7 +249,7 @@ MonoBehaviour:
   startingEquipment: []
   currentEquipment: {fileID: 0}
   mainCamera: {fileID: 1854325181538710211}
-  movementSoundMultiplyer: 2
+  movementSoundMultiplyer: 5
 --- !u!136 &1854325182474160347
 CapsuleCollider:
   m_ObjectHideFlags: 0

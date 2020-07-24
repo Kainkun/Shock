@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class MonsterAnimatorEvents : MonoBehaviour
 {
+    BasicEnemy basicEnemy;
+    private void Awake()
+    {
+        basicEnemy = transform.root.GetComponent<BasicEnemy>();
+    }
 
     public void AttemptHit()
     {
-        BasicEnemy basicEnemy = transform.root.GetComponent<BasicEnemy>();
+        if (basicEnemy.currentHealth <= 0)
+            return;
+
         Player player = Player.instance;
 
         Vector3 enemyForward = basicEnemy.transform.forward;

@@ -113,7 +113,6 @@ public class Gun : Weapon
     }
     private void OnDisable()
     {
-        animator.Play("PistolIdle");
         reloading = false;
     }
 }
