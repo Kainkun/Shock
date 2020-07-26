@@ -34,6 +34,7 @@ public class Player : MonoBehaviour
     float movementSoundDistance;
     float EquipmentSoundDistance;
     public float movementSoundMultiplyer = 2;
+    Transform soundRadius;
 
     private void Awake()
     {
@@ -43,6 +44,7 @@ public class Player : MonoBehaviour
             currentEquipment = GetComponentInChildren<Equipment>();*/
         rb = GetComponent<Rigidbody>();
         equipmentPosition = GameObject.Find("EquipmentPosition").transform;
+        soundRadius = GameObject.Find("SoundRadius").transform;
     }
 
     void Start()
@@ -92,8 +94,12 @@ public class Player : MonoBehaviour
     }
 
      NavMeshAgent monster;
+    float f;
     protected void Update()
     {
+        f = Mathf.Lerp(f, GetLoudestSoundDistance(), Time.deltaTime * 10);
+        soundRadius.localScale = new Vector3(f, 0.1f, f);
+
         if (Input.GetMouseButtonDown(0) && (Cursor.lockState != CursorLockMode.Locked || Cursor.visible != false))
         {
             Cursor.lockState = CursorLockMode.Locked;

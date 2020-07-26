@@ -329,6 +329,8 @@ MonoBehaviour:
   casualSearchTime: 5
   lastHeardSoundPosition: {x: 0, y: 0, z: 0}
   forwardAnimationLerpSpeed: 5
+  timeSinceHeard: 0
+  reactionTime: 2
 --- !u!1 &4138019701042982988
 GameObject:
   m_ObjectHideFlags: 0

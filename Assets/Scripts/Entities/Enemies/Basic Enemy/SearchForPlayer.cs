@@ -12,6 +12,9 @@ public class SearchForPlayer : State
     float timeToWaitAfterDestination;
     float currentRadius;
     Vector3 mainSearchPosition;
+    
+    float timeSinceLooking;
+    float randomLookTime;
 
     public SearchForPlayer(BasicEnemy basicEnemy)
     {
@@ -36,6 +39,21 @@ public class SearchForPlayer : State
                 currentRadius += 0.2f;
             }
         }
+
+        
+        #region "Looking"
+        timeSinceLooking += Time.deltaTime;
+        if(timeSinceLooking > randomLookTime)
+        {
+            if(Random.Range(0,2) == 0)
+                basicEnemy.animator.SetTrigger("LookLeft");
+            else
+                basicEnemy.animator.SetTrigger("LookRight");
+            
+            timeSinceLooking = 0;
+            randomLookTime = Random.Range(4f, 8f);
+        }
+        #endregion
 
     }
     public void OnEnter()

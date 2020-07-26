@@ -35,6 +35,8 @@ public class BasicEnemy : Entity
     [HideInInspector]
     public Vector3 lastHeardSoundPosition;
     public float forwardAnimationLerpSpeed = 1;
+    public float timeSinceHeard = 0;
+    public float reactionTime = 0.5f;
 
     private void Awake()
     {
@@ -63,6 +65,7 @@ public class BasicEnemy : Entity
         var wanderInArea = new WanderInArea(this);
         var searchForPlayer = new SearchForPlayer(this);
         var searchForSound = new SearchForSound(this);
+        var lookForSound = new LookForSound(this);
 
         //TRANSITIONS
         AT(idle, chasePlayer, SeePlayer());
@@ -71,9 +74,10 @@ public class BasicEnemy : Entity
         AT(searchForPlayer, chasePlayer, SeePlayer());
         AT(searchForSound, chasePlayer, SeePlayer());
 
-        AT(idle, searchForSound, HearsPlayer());
-        AT(wander, searchForSound, HearsPlayer());
-        AT(wanderInArea, searchForSound, HearsPlayer());
+        AT(idle, lookForSound, HearsPlayer());
+        AT(wander, lookForSound, HearsPlayer());
+        AT(wanderInArea, lookForSound, HearsPlayer());
+        AT(lookForSound, searchForSound, TimeToGoToSound());
 
         AT(chasePlayer, attack, InAttackRange());
         AT(attack, wanderInArea, AttackDone());
@@ -101,6 +105,7 @@ public class BasicEnemy : Entity
         Func<bool> CantFindPlayer() => () => !RayHitsPlayer();
         Func<bool> SearchOver() => () =>  searchForPlayer.searchTime >= maxSearchTime;
         Func<bool> HearsPlayer() => () => Hearing();
+        Func<bool> TimeToGoToSound() => () => timeSinceHeard >= reactionTime;
 
     }
 
@@ -149,14 +154,13 @@ public class BasicEnemy : Entity
 
     private void OnDrawGizmosSelected()
     {
-        Vector3 eyes;
-        if (eyesPosition != null)
-            eyes = eyesPosition.position;
-        else
-            eyes = transform.position + Vector3.up * 1.5f;
-
         Gizmos.color = Color.red;
-        Gizmos.matrix = Matrix4x4.TRS(transform.position + Vector3.up * 1.5f, transform.rotation, Vector3.one);
+
+        if (eyesPosition != null)
+            Gizmos.matrix = Matrix4x4.TRS(eyesPosition.position, eyesPosition.rotation, Vector3.one);
+        else
+            Gizmos.matrix = Matrix4x4.TRS(transform.position + Vector3.up * 1.5f, transform.rotation, Vector3.one);
+
         Gizmos.DrawFrustum(Vector3.zero, sightFOV, sightDistance, 0.1f, 1);
     }
 

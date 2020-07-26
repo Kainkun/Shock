@@ -10,6 +10,8 @@ public class WanderInArea : State
     float timeSinceDestination;
     float timeToWaitAfterDestination;
     float startingAcceleration;
+    float timeSinceLooking;
+    float randomLookTime;
 
     public WanderInArea(BasicEnemy basicEnemy)
     {
@@ -18,17 +20,34 @@ public class WanderInArea : State
 
     public void Tick()
     {
-        wanderTime += Time.deltaTime;
 
+        #region "Movement"
+        wanderTime += Time.deltaTime;
         Vector3 localVelocity = basicEnemy.transform.InverseTransformDirection(basicEnemy.navMeshAgent.velocity);
         basicEnemy.animator.SetFloat("ForwardSpeed", localVelocity.z / basicEnemy.chaseSpeed);
 
         if (Vector3.Distance(basicEnemy.transform.position, basicEnemy.navMeshAgent.destination) < 1)
         {
             timeSinceDestination += Time.deltaTime;
+            
             if(timeSinceDestination >= timeToWaitAfterDestination)
                 GoToRandomPlaceWithinArea();
         }
+        #endregion
+
+        #region "Looking"
+        timeSinceLooking += Time.deltaTime;
+        if(timeSinceLooking > randomLookTime)
+        {
+            if(Random.Range(0,2) == 0)
+                basicEnemy.animator.SetTrigger("LookLeft");
+            else
+                basicEnemy.animator.SetTrigger("LookRight");
+            
+            timeSinceLooking = 0;
+            randomLookTime = Random.Range(4f, 8f);
+        }
+        #endregion
 
     }
     public void OnEnter()
