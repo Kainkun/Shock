@@ -4,28 +4,24 @@ using UnityEngine;
 
 public class MonsterAnimatorEvents : MonoBehaviour
 {
-    BasicEnemy basicEnemy;
-    private void Awake()
-    {
-        basicEnemy = transform.root.GetComponent<BasicEnemy>();
-    }
+    public BasicEnemy ParentbasicEnemy;
 
     public void AttemptHit()
     {
-        if (basicEnemy.currentHealth <= 0)
+        if (ParentbasicEnemy.currentHealth <= 0)
             return;
 
         Player player = Player.instance;
 
-        Vector3 enemyForward = basicEnemy.transform.forward;
-        Vector3 directionToPlayer = player.transform.position - basicEnemy.transform.position;
+        Vector3 enemyForward = ParentbasicEnemy.transform.forward;
+        Vector3 directionToPlayer = player.transform.position - ParentbasicEnemy.transform.position;
         float angle = Vector3.Angle(enemyForward, directionToPlayer);
         //Debug.DrawRay(basicEnemy.transform.position, enemyForward, Color.red, 2);
         //Debug.DrawRay(basicEnemy.transform.position, directionToPlayer, Color.green, 2);
 
-        if (Vector3.Distance(player.transform.position, transform.root.position) < basicEnemy.attackRange && angle <= basicEnemy.attackWidthArc)
+        if (Vector3.Distance(player.transform.position, transform.root.position) < ParentbasicEnemy.attackRange && angle <= ParentbasicEnemy.attackWidthArc)
         {
-            player.TakeDamage(basicEnemy.damage);
+            player.TakeDamage(ParentbasicEnemy.damage);
         }
     }
 }

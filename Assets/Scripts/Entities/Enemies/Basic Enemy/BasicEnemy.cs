@@ -40,6 +40,7 @@ public class BasicEnemy : Entity
 
     private void Awake()
     {
+        GetComponentInChildren<MonsterAnimatorEvents>().ParentbasicEnemy = this;
         var rbs = GetComponentsInChildren<Rigidbody>();
         foreach (var rb in rbs)
         {

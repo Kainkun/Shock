@@ -5,8 +5,8 @@ using UnityEngine;
 public class Weapon : Equipment
 {
     public float damage;
-    public GameObject hitEffectPs;
-    public GameObject critHitEffectPs;
+    public GameObject defaultHitEffectPs;
+    public GameObject defaultCritHitEffectPs;
 
     public void DamageEntity(RaycastHit hit, Ray ray)
     {
@@ -15,13 +15,17 @@ public class Weapon : Equipment
 
         if (hit.transform.tag == "Critical")
         {
-            if(critHitEffectPs != null)
-                Destroy(Instantiate(critHitEffectPs, hit.point, Quaternion.identity), 5);
+            if(entity.critHitPs != null)
+                Destroy(Instantiate(entity.critHitPs, hit.point, Quaternion.identity), 5);
+            else if(defaultCritHitEffectPs != null)
+                Destroy(Instantiate(defaultCritHitEffectPs, hit.point, Quaternion.identity), 5);
         }
         else
         {
-            if(hitEffectPs != null)
-            Destroy(Instantiate(hitEffectPs, hit.point, Quaternion.identity), 5);
+            if(entity.hitPs != null)
+                Destroy(Instantiate(entity.hitPs, hit.point, Quaternion.identity), 5);
+            else if(defaultHitEffectPs != null)
+                Destroy(Instantiate(defaultHitEffectPs, hit.point, Quaternion.identity), 5);
         }
             entity.TakeDamage(damage, hit, ray.direction);
     }
@@ -39,7 +43,7 @@ public class Weapon : Equipment
             }
             else
             {
-                Destroy(Instantiate(hitEffectPs, hit.point, Quaternion.identity), 5);
+                Destroy(Instantiate(defaultHitEffectPs, hit.point, Quaternion.identity), 5);
             }
         }
 

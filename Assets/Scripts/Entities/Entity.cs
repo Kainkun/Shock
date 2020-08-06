@@ -10,6 +10,8 @@ public class Entity : MonoBehaviour
     [HideInInspector]
     public Vector3 lastHitDirection;
     public float critMultiplier = 2;
+    public GameObject hitPs;
+    public GameObject critHitPs;
 
     void Start()
     {

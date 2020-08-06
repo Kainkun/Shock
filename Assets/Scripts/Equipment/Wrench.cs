@@ -32,7 +32,7 @@ public class Wrench : Weapon
             }
             else
             {
-                Destroy(Instantiate(hitEffectPs, hit.point, Quaternion.identity), 5);
+                Destroy(Instantiate(defaultHitEffectPs, hit.point, Quaternion.identity), 5);
             }
         }
     }

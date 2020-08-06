@@ -72,7 +72,7 @@ public class WanderInArea : State
     void GoToRandomPlaceWithinArea()
     {
         timeSinceDestination = 0;
-        timeToWaitAfterDestination = Random.Range(2, 4);
+        timeToWaitAfterDestination = Random.Range(4, 6);
         basicEnemy.navMeshAgent.SetDestination(GetRandomValidPositionInArea());
     }
 
