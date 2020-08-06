@@ -240,7 +240,7 @@ MonoBehaviour:
   crosshairSettingNone: {fileID: 11400000, guid: 2808a7d1a1db41b4195ff3c414ccfe9a,
     type: 2}
   mouseSensitivty: {x: 50, y: 50}
-  sneekSpeed: 50
+  sneekSpeed: 75
   walkSpeed: 150
   sprintSpeed: 250
   jumpforce: 300
@@ -250,7 +250,7 @@ MonoBehaviour:
   startingEquipment: []
   currentEquipment: {fileID: 0}
   mainCamera: {fileID: 1854325181538710211}
-  movementSoundMultiplyer: 5
+  movementSoundMultiplyer: 3
 --- !u!136 &1854325182474160347
 CapsuleCollider:
   m_ObjectHideFlags: 0

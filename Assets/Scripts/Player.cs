@@ -49,7 +49,7 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        monster = GameObject.Find("Monster").GetComponent<NavMeshAgent>();
+        //monster = GameObject.Find("Monster").GetComponent<NavMeshAgent>();
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -190,6 +190,7 @@ public class Player : MonoBehaviour
                     currentEquipment.transform.parent = equipmentPosition;
                     currentEquipment.transform.localPosition = Vector3.zero;
                     currentEquipment.transform.localRotation = Quaternion.identity;
+                    currentEquipment.animator.enabled = true;
                 }
 
                 hit.collider.GetComponent<PhysicalButton>()?.Press();

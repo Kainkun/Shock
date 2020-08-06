@@ -105,7 +105,10 @@ public class BasicEnemy : Entity
         Func<bool> CantFindPlayer() => () => !RayHitsPlayer();
         Func<bool> SearchOver() => () =>  searchForPlayer.searchTime >= maxSearchTime;
         Func<bool> HearsPlayer() => () => Hearing();
-        Func<bool> TimeToGoToSound() => () => timeSinceHeard >= reactionTime;
+        Func<bool> TimeToGoToSound() => () =>
+        {
+            return timeSinceHeard >= reactionTime;
+        };
 
     }
 

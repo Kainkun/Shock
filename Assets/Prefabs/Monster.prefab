@@ -316,8 +316,8 @@ MonoBehaviour:
   attackMoveSpeed: 1
   attackTime: 2
   attackAttemptRange: 1
-  attackRange: 2
-  attackWidthArc: 30
+  attackRange: 1.5
+  attackWidthArc: 20
   damage: 20
   sightFOV: 45
   sightDistance: 15
