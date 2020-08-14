@@ -305,10 +305,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e20321c45ceeaf419920994cd9e2145, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 50
+  maxHealth: 30
   currentHealth: 0
   lastHitDirection: {x: 0, y: 0, z: 0}
-  critMultiplier: 5
+  critMultiplier: 3
   hitPs: {fileID: 6864432093804288156, guid: 11bd0dee6d7e30f45a9075b821ef825f, type: 3}
   critHitPs: {fileID: 6864432093804288156, guid: 51213bedb5e33954da10a6c0be9ef5ec,
     type: 3}

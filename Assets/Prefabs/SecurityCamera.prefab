@@ -372,8 +372,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a0127dfd2bbc0d4190989d768a16d39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lightTransform: {fileID: 977629840506397169}
   securityCameraAxis: {fileID: 977629841918799346}
-  lightPosition: {fileID: 977629840506397169}
   angle1: {fileID: 977629842552401643}
   angle2: {fileID: 977629841255667130}
   speed: 0.5
@@ -381,6 +381,8 @@ MonoBehaviour:
   maxDistance: 10
   tension: 1
   dampen: 0.2
+  searchingColor: {r: 0.754717, g: 0.6748058, b: 0, a: 0}
+  alertColor: {r: 1, g: 0, b: 0, a: 0}
   camLensMeshR: {fileID: 977629841504892978}
 --- !u!1 &977629841918799349
 GameObject:

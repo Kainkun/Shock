@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class SecurityCamera : MonoBehaviour
 {
+    public Transform lightTransform;
+
     #region movement varaibles
     public Transform securityCameraAxis;
-    public Transform lightPosition;
     float lightAngle;
     public Transform angle1;
     public Transform angle2;
@@ -18,7 +19,10 @@ public class SecurityCamera : MonoBehaviour
     public float dampen = 0.2f;
     Transform player;
     #endregion
-    
+
+    public Color searchingColor;
+    public Color alertColor;
+
     public MeshRenderer camLensMeshR;
     Material mat;
 
@@ -31,10 +35,12 @@ public class SecurityCamera : MonoBehaviour
     {
         player = Player.instance.transform;
         StartCoroutine(camMovement());
-        lightPosition.GetComponent<Light>().range = maxDistance;
-        lightAngle = lightPosition.GetComponent<Light>().spotAngle;
+        lightTransform.GetComponent<Light>().range = maxDistance;
+        lightAngle = lightTransform.GetComponent<Light>().spotAngle;
+        lightTransform.GetComponent<Light>().color = searchingColor;
     }
 
+    float colorT = 0;
     float T;
     float speedT;
     float targetT;
@@ -45,18 +51,25 @@ public class SecurityCamera : MonoBehaviour
         T += speedT;
         securityCameraAxis.localRotation = Quaternion.SlerpUnclamped(angle1.localRotation, angle2.localRotation, T);
 
-        float playerCameraAngle = Vector3.Angle(player.position - lightPosition.position, lightPosition.forward);
+        float playerCameraAngle = Vector3.Angle(player.position - lightTransform.position, lightTransform.forward);
         RaycastHit hit;
-        if (Physics.Raycast(lightPosition.position, player.position - lightPosition.position, out hit, maxDistance))
+        if (Physics.Raycast(lightTransform.position, player.position - lightTransform.position, out hit, maxDistance))
         {
-            if (hit.transform.tag == "Player" && playerCameraAngle <= lightAngle)
+            if (hit.transform.tag == "Player" && playerCameraAngle <= lightAngle - 20)
             {
-                //cam sees player
+                colorT += Time.deltaTime * 2;
+                //can see player
             }
+            else
+            {
+                colorT -= Time.deltaTime * 2;
+            }
+            colorT = Mathf.Clamp01(colorT);
+            lightTransform.GetComponent<Light>().color = Color.Lerp(searchingColor, alertColor, colorT);
         }
 
         float emisT = Mathf.InverseLerp(lightAngle, 0, playerCameraAngle);
-        ApplyEmisIntensity(Mathf.Lerp(0.1f, 30, Mathf.Pow(emisT,3)));
+        ApplyEmisIntensity(Mathf.Lerp(0.1f, 30, Mathf.Pow(emisT, 3)));
     }
 
     IEnumerator camMovement()
@@ -81,7 +94,7 @@ public class SecurityCamera : MonoBehaviour
 
     void ApplyEmisIntensity(float intensity)
     {
-        mat.SetFloat("EmisIntensity", intensity*100f);
+        mat.SetFloat("EmisIntensity", intensity * 100f);
     }
 
     private void OnDrawGizmos()

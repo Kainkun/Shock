@@ -244,7 +244,7 @@ MonoBehaviour:
   walkSpeed: 150
   sprintSpeed: 250
   jumpforce: 300
-  maxInteractDistance: 20
+  maxInteractDistance: 3
   maxHealth: 100
   dead: 0
   startingEquipment: []
