@@ -46,7 +46,7 @@ public class Wander : State
     void GoToRandomPlaceWithinRadius(float radius)
     {
         timeSinceDestination = 0;
-        timeToWaitAfterDestination = Random.Range(2, 10);
+        timeToWaitAfterDestination = Random.Range(8, 16);
         basicEnemy.navMeshAgent.SetDestination(GetRandomPositionOnNavmesh(basicEnemy.transform.position, radius));
     }
 

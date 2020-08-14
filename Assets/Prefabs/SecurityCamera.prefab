@@ -373,6 +373,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   securityCameraAxis: {fileID: 977629841918799346}
+  lightPosition: {fileID: 977629840506397169}
   angle1: {fileID: 977629842552401643}
   angle2: {fileID: 977629841255667130}
   speed: 0.5
@@ -380,6 +381,7 @@ MonoBehaviour:
   maxDistance: 10
   tension: 1
   dampen: 0.2
+  camLensMeshR: {fileID: 977629841504892978}
 --- !u!1 &977629841918799349
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7063508591131340670, guid: 45a39cf2e347b1341b7dc89be6f8a0b6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.053
+      objectReference: {fileID: 0}
     - target: {fileID: 7063508591402219233, guid: 45a39cf2e347b1341b7dc89be6f8a0b6,
         type: 3}
       propertyPath: interactionLoudnessDistance
