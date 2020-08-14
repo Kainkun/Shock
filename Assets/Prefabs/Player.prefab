@@ -248,6 +248,8 @@ MonoBehaviour:
   maxHealth: 100
   dead: 0
   startingEquipment: []
+  pistolAmmoCount: 0
+  rifleAmmoCount: 0
   currentEquipment: {fileID: 0}
   mainCamera: {fileID: 1854325181538710211}
   movementSoundMultiplyer: 3

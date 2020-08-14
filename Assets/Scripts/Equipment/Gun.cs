@@ -5,16 +5,63 @@ using UnityEngine;
 [RequireComponent(typeof(LineRenderer))]
 public class Gun : Weapon
 {
+    public AmmoPickup.AmmoType ammoType;
     public float fireRate = 1;
-    public float ammoCapacity = 36;
+    public float ammoCapacity = 72;
     public float magazineCapacity = 6;
-    public float currentAmmoCount = 36;
-    public float currentMagazineCount = 6;
+    public float currentMagazineCount = 0;
 
     public bool reloading;
 
     public Transform shootPoint;
     LineRenderer lr;
+
+    public float CurrentAmmoCount
+    {
+        get
+        {
+            switch (ammoType)
+            {
+                case AmmoPickup.AmmoType.Pistol:
+                    return Player.instance.pistolAmmoCount;
+                case AmmoPickup.AmmoType.Rifle:
+                    return Player.instance.rifleAmmoCount;
+                default:
+                    Debug.LogError("Invalid AmmoType");
+                    return 0;
+            }
+        }
+        set
+        {
+            if (value < 0)
+                switch (ammoType)
+                {
+                    case AmmoPickup.AmmoType.Pistol:
+                        Player.instance.pistolAmmoCount = 0;
+                        break;
+                    case AmmoPickup.AmmoType.Rifle:
+                        Player.instance.rifleAmmoCount = 0;
+                        break;
+                    default:
+                        Debug.LogError("Invalid AmmoType");
+                        break;
+                }
+            else
+                switch (ammoType)
+                {
+                    case AmmoPickup.AmmoType.Pistol:
+                        Player.instance.pistolAmmoCount = value;
+                        break;
+                    case AmmoPickup.AmmoType.Rifle:
+                        Player.instance.rifleAmmoCount = value;
+                        break;
+                    default:
+                        Debug.LogError("Invalid AmmoType");
+                        break;
+                }
+            RefreshAmmoCountUI();
+        }
+    }
 
     public float CurrentMagazineCount
     {
@@ -22,23 +69,21 @@ public class Gun : Weapon
         set
         {
             if (value < 0)
-                CurrentAmmoCount = 0;
+                switch (ammoType)
+                {
+                    case AmmoPickup.AmmoType.Pistol:
+                        Player.instance.pistolAmmoCount = 0;
+                        break;
+                    case AmmoPickup.AmmoType.Rifle:
+                        Player.instance.rifleAmmoCount = 0;
+                        break;
+                    default:
+                        Debug.LogError("Invalid AmmoType");
+                        break;
+                }
             else
                 currentMagazineCount = value;
-            Manager.SetAmmoCountUI(currentMagazineCount, currentAmmoCount);
-        }
-    }
-
-    public float CurrentAmmoCount
-    {
-        get { return currentAmmoCount; }
-        set
-        {
-            if (value < 0)
-                CurrentAmmoCount = 0;
-            else
-                currentAmmoCount = value;
-            Manager.SetAmmoCountUI(currentMagazineCount, currentAmmoCount);
+            RefreshAmmoCountUI();
         }
     }
 
@@ -53,7 +98,7 @@ public class Gun : Weapon
     {
         CurrentMagazineCount = magazineCapacity;
 
-        Manager.SetAmmoCountUI(currentMagazineCount, currentAmmoCount);
+        RefreshAmmoCountUI();
 
         base.Start();
     }
@@ -114,5 +159,10 @@ public class Gun : Weapon
     private void OnDisable()
     {
         reloading = false;
+    }
+
+    public void RefreshAmmoCountUI()
+    {
+        Manager.SetAmmoCountUI(currentMagazineCount, CurrentAmmoCount);
     }
 }

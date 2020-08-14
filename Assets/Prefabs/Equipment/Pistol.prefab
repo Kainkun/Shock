@@ -348,7 +348,7 @@ GameObject:
   - component: {fileID: 532889897}
   m_Layer: 9
   m_Name: Pistol
-  m_TagString: Untagged
+  m_TagString: Pickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -487,11 +487,12 @@ MonoBehaviour:
     type: 3}
   defaultCritHitEffectPs: {fileID: 6704893950553102647, guid: b11ad56684b1512438a2e706afae5c60,
     type: 3}
+  ammoType: 0
   fireRate: 1
   ammoCapacity: 6
   magazineCapacity: 6
-  currentAmmoCount: 36000
   currentMagazineCount: 0
+  ammoInGun: 0
   reloading: 0
   shootPoint: {fileID: 7063508591131340670}
 --- !u!135 &532889897

@@ -21,8 +21,11 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public bool dead;
     public GameObject[] startingEquipment;
-    [HideInInspector]
 
+    public float pistolAmmoCount;
+    public float rifleAmmoCount;
+
+    [HideInInspector]
     float xRotation = 0;
     Vector2 movementInput;
     Transform equipmentPosition;
@@ -60,7 +63,7 @@ public class Player : MonoBehaviour
 
         for (int i = 0; i < startingEquipment.Length; i++)
         {
-            if(startingEquipment[i] == null)
+            if (startingEquipment[i] == null)
             {
                 Manager.uiEquipmentSlots.AddSlot();
                 continue;
@@ -71,10 +74,10 @@ public class Player : MonoBehaviour
 
             E.GetComponent<Collider>().enabled = false;
             E.enabled = true;
-            if(i != 0)
+            if (i != 0)
                 E.gameObject.SetActive(false);
         }
-        if(Manager.uiEquipmentSlots.SlotCount > 0)
+        if (Manager.uiEquipmentSlots.SlotCount > 0)
         {
             Manager.uiEquipmentSlots.CurrentSlotIndex = 0;
             if (Manager.uiEquipmentSlots.CurrentSlot.Equipment != null)
@@ -86,14 +89,14 @@ public class Player : MonoBehaviour
                 CrosshairManager.currentCrosshairSetting = crosshairSettingNone;
         }
 
-/*        if (currentEquipment != null)
-        {
-            Manager.uiEquipmentSlots.AddSlot(currentEquipment);
-            Manager.uiEquipmentSlots.CurrentSlotIndex = 0;
-        }*/
+        /*        if (currentEquipment != null)
+                {
+                    Manager.uiEquipmentSlots.AddSlot(currentEquipment);
+                    Manager.uiEquipmentSlots.CurrentSlotIndex = 0;
+                }*/
     }
 
-     NavMeshAgent monster;
+    NavMeshAgent monster;
     float f;
     protected void Update()
     {
@@ -112,7 +115,7 @@ public class Player : MonoBehaviour
 
         RaycastHit hit;
         if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit, maxInteractDistance))
-            if (hit.collider.GetComponent<PhysicalButton>() || hit.collider.GetComponent<Equipment>())
+            if (hit.collider.GetComponent<PhysicalButton>() || hit.collider.tag == "Pickup")
                 CrosshairManager.RingColor(Color.red);
             else
                 CrosshairManager.RingColor(Color.white);
@@ -142,7 +145,7 @@ public class Player : MonoBehaviour
     }
     void MovementInput()
     {
-        if(dead)
+        if (dead)
         {
             movementInput = Vector2.zero;
             return;
@@ -173,7 +176,7 @@ public class Player : MonoBehaviour
 
         RaycastHit hit;
 
-        if(Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit, maxInteractDistance))
             {
@@ -191,6 +194,37 @@ public class Player : MonoBehaviour
                     currentEquipment.transform.localPosition = Vector3.zero;
                     currentEquipment.transform.localRotation = Quaternion.identity;
                     currentEquipment.animator.enabled = true;
+
+                    // if (hit.collider.GetComponent<Gun>() != null)
+                    // {
+                    //     switch (hit.collider.GetComponent<Gun>().ammoType)
+                    //     {
+                    //         case AmmoPickup.AmmoType.Pistol:
+                    //             pistolAmmoCount += hit.collider.GetComponent<Gun>().currentMagazineCount;
+                    //             break;
+                    //         case AmmoPickup.AmmoType.Rifle:
+                    //             rifleAmmoCount += hit.collider.GetComponent<Gun>().ammoInGun;
+                    //             break;
+                    //         default:
+                    //             Debug.LogError("Invalid AmmoType");
+                    //             break;
+                    //     }
+                    //     hit.collider.GetComponent<Gun>().ammoInGun = 0;
+                    // }
+                }
+                else if (hit.collider.GetComponent<AmmoPickup>())
+                {
+                    AmmoPickup ap = hit.collider.GetComponent<AmmoPickup>();
+                    switch (hit.collider.GetComponent<AmmoPickup>().ammoType)
+                    {
+                        case AmmoPickup.AmmoType.Pistol:
+                            pistolAmmoCount += ap.Pickup();
+                            break;
+                        case AmmoPickup.AmmoType.Rifle:
+                            rifleAmmoCount += ap.Pickup();
+                            break;
+                    }
+                    currentEquipment?.GetComponent<Gun>()?.RefreshAmmoCountUI();
                 }
 
                 hit.collider.GetComponent<PhysicalButton>()?.Press();
@@ -203,7 +237,7 @@ public class Player : MonoBehaviour
             currentEquipment?.Interact();
         }
 
-        if(Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             currentEquipment?.GetComponent<Gun>()?.AttemptReload();
         }
@@ -218,7 +252,7 @@ public class Player : MonoBehaviour
             currentEquipment?.gameObject.SetActive(false);
             currentEquipment = Manager.uiEquipmentSlots.CurrentSlot.Equipment;
             currentEquipment?.gameObject.SetActive(true);
-            if(!currentEquipment)
+            if (!currentEquipment)
                 CrosshairManager.currentCrosshairSetting = crosshairSettingNone;
         }
 
@@ -270,7 +304,7 @@ public class Player : MonoBehaviour
 
     public void MakeEquipmentSound(float volume)
     {
-        if(currentEquipmentSound != null)
+        if (currentEquipmentSound != null)
             StopCoroutine(currentEquipmentSound);
         currentEquipmentSound = StartCoroutine(EquipmentSound(volume));
     }
@@ -285,7 +319,7 @@ public class Player : MonoBehaviour
 
     public float GetLoudestSoundDistance()
     {
-        return movementSoundDistance > EquipmentSoundDistance ? movementSoundDistance : EquipmentSoundDistance;       
+        return movementSoundDistance > EquipmentSoundDistance ? movementSoundDistance : EquipmentSoundDistance;
     }
 
     public void Sensitivity(float x)
