@@ -199,7 +199,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1272692808407681413}
   - component: {fileID: 1272692808407681412}
-  - component: {fileID: 1272692808407681466}
+  - component: {fileID: 8653176141770643692}
   m_Layer: 0
   m_Name: Wrench
   m_TagString: Pickup
@@ -245,7 +245,7 @@ MonoBehaviour:
   defaultCritHitEffectPs: {fileID: 6704893950553102647, guid: b11ad56684b1512438a2e706afae5c60,
     type: 3}
   swingTime: 0.5
---- !u!135 &1272692808407681466
+--- !u!135 &8653176141770643692
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -253,11 +253,11 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1272692808407681415}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.38
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Radius: 0.25
+  m_Center: {x: -0.16, y: -0.13, z: -0.4}
 --- !u!1 &1272692808539365102
 GameObject:
   m_ObjectHideFlags: 0

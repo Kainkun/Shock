@@ -89,6 +89,8 @@ public class Player : MonoBehaviour
                 CrosshairManager.currentCrosshairSetting = crosshairSettingNone;
         }
 
+        UpdateAmmoUI();
+
         /*        if (currentEquipment != null)
                 {
                     Manager.uiEquipmentSlots.AddSlot(currentEquipment);
@@ -195,22 +197,7 @@ public class Player : MonoBehaviour
                     currentEquipment.transform.localRotation = Quaternion.identity;
                     currentEquipment.animator.enabled = true;
 
-                    // if (hit.collider.GetComponent<Gun>() != null)
-                    // {
-                    //     switch (hit.collider.GetComponent<Gun>().ammoType)
-                    //     {
-                    //         case AmmoPickup.AmmoType.Pistol:
-                    //             pistolAmmoCount += hit.collider.GetComponent<Gun>().currentMagazineCount;
-                    //             break;
-                    //         case AmmoPickup.AmmoType.Rifle:
-                    //             rifleAmmoCount += hit.collider.GetComponent<Gun>().ammoInGun;
-                    //             break;
-                    //         default:
-                    //             Debug.LogError("Invalid AmmoType");
-                    //             break;
-                    //     }
-                    //     hit.collider.GetComponent<Gun>().ammoInGun = 0;
-                    // }
+                    UpdateAmmoUI();
                 }
                 else if (hit.collider.GetComponent<AmmoPickup>())
                 {
@@ -225,6 +212,11 @@ public class Player : MonoBehaviour
                             break;
                     }
                     currentEquipment?.GetComponent<Gun>()?.RefreshAmmoCountUI();
+                }
+                else if (hit.collider.GetComponent<Log>())
+                {
+                    Manager.AddLog(hit.collider.GetComponent<Log>().GetTextAsset());
+                    Manager.instance.ShowHelp("Press G to toggle logs", 3);
                 }
 
                 hit.collider.GetComponent<PhysicalButton>()?.Press();
@@ -242,6 +234,11 @@ public class Player : MonoBehaviour
             currentEquipment?.GetComponent<Gun>()?.AttemptReload();
         }
 
+        if(Input.GetKeyDown(KeyCode.G))
+        {
+            Manager.ToggleLog();
+        }
+
         if (Input.GetAxis("Mouse ScrollWheel") != 0 && Manager.uiEquipmentSlots.SlotCount > 0)
         {
             if (Input.GetAxis("Mouse ScrollWheel") > 0)
@@ -254,6 +251,8 @@ public class Player : MonoBehaviour
             currentEquipment?.gameObject.SetActive(true);
             if (!currentEquipment)
                 CrosshairManager.currentCrosshairSetting = crosshairSettingNone;
+
+            UpdateAmmoUI();
         }
 
     }
@@ -320,6 +319,18 @@ public class Player : MonoBehaviour
     public float GetLoudestSoundDistance()
     {
         return movementSoundDistance > EquipmentSoundDistance ? movementSoundDistance : EquipmentSoundDistance;
+    }
+
+    void UpdateAmmoUI()
+    {
+        if (currentEquipment?.GetComponent<Gun>())
+        {
+            Manager.ShowAmmoCount(true);
+        }
+        else
+        {
+            Manager.ShowAmmoCount(false);
+        }
     }
 
     public void Sensitivity(float x)
