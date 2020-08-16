@@ -117,7 +117,7 @@ public class Player : MonoBehaviour
 
         RaycastHit hit;
         if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit, maxInteractDistance))
-            if (hit.collider.GetComponent<PhysicalButton>() || hit.collider.tag == "Pickup")
+            if (hit.collider.GetComponent<PhysicalButton>() || hit.collider.GetComponent<Interactable>() || hit.collider.tag == "Pickup")
                 CrosshairManager.RingColor(Color.red);
             else
                 CrosshairManager.RingColor(Color.white);
@@ -198,6 +198,10 @@ public class Player : MonoBehaviour
                     currentEquipment.animator.enabled = true;
 
                     UpdateAmmoUI();
+                }
+                else if(hit.collider.GetComponent<Interactable>())
+                {
+                    hit.collider.GetComponent<Interactable>().Interact();
                 }
                 else if (hit.collider.GetComponent<AmmoPickup>())
                 {
