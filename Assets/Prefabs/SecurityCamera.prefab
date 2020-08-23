@@ -335,7 +335,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 977629841917418417}
-  - component: {fileID: 977629841917417550}
+  - component: {fileID: 6944568805226924227}
   m_Layer: 0
   m_Name: SecurityCamera
   m_TagString: Untagged
@@ -360,7 +360,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &977629841917417550
+--- !u!114 &6944568805226924227
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -369,21 +369,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 977629841917418416}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a0127dfd2bbc0d4190989d768a16d39, type: 3}
+  m_Script: {fileID: 11500000, guid: 3be85da2e386e3b46a013bf6d13bf34c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightTransform: {fileID: 977629840506397169}
-  securityCameraAxis: {fileID: 977629841918799346}
-  angle1: {fileID: 977629842552401643}
-  angle2: {fileID: 977629841255667130}
-  speed: 0.5
-  pauseTime: 2
-  maxDistance: 10
-  tension: 1
-  dampen: 0.2
-  searchingColor: {r: 0.754717, g: 0.6748058, b: 0, a: 0}
-  alertColor: {r: 1, g: 0, b: 0, a: 0}
-  camLensMeshR: {fileID: 977629841504892978}
 --- !u!1 &977629841918799349
 GameObject:
   m_ObjectHideFlags: 0
