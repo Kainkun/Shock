@@ -59,7 +59,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ammoType: 0
-  ammoCount: 2
+  ammoCount: 1
 --- !u!1 &2713122332512441886
 GameObject:
   m_ObjectHideFlags: 0

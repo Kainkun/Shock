@@ -33,6 +33,7 @@ public class SecurityCamera : MonoBehaviour
         cameraFOV = spotlight.spotAngle;
         maxDistance = spotlight.range;
         currentColor = Color.red;
+        idleLerpT = Manager.InverseLerp(angle1.forward, angle2.forward, cameraAxis.forward);
         StartCoroutine(idleMovement());
     }
 
@@ -122,9 +123,9 @@ public class SecurityCamera : MonoBehaviour
             releaseSecurity.Invoke();
             onCooldown = true;
         }
-        if(onCooldown)
+        if (onCooldown)
             currentSecurityCooldownTime += Time.deltaTime;
-        if(currentSecurityCooldownTime >= securityCooldownTime)
+        if (currentSecurityCooldownTime >= securityCooldownTime)
         {
             onCooldown = false;
             currentSecurityCooldownTime = 0;

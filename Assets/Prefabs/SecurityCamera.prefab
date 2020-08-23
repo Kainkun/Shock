@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &67880841755964689
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2939259631124267894}
+  m_Layer: 0
+  m_Name: Angle1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2939259631124267894
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 67880841755964689}
+  m_LocalRotation: {x: 0.11284729, y: 0.29479757, z: -0.03589667, w: 0.9481938}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 977629841917418417}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 13.601001, y: 34.531002, z: -0.091000006}
 --- !u!1 &977629840506397168
 GameObject:
   m_ObjectHideFlags: 0
@@ -226,13 +256,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 977629841255667133}
-  m_LocalRotation: {x: 0.11284729, y: 0.29479757, z: -0.03589667, w: 0.9481938}
+  m_LocalRotation: {x: 0.09060537, y: -0.08939711, z: -0.07624794, w: 0.98893136}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 977629841917418417}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 13.601001, y: 34.531002, z: -0.091000006}
+  m_LocalEulerAnglesHint: {x: 9.530001, y: -11.145, z: -9.75}
 --- !u!1 &977629841504892983
 GameObject:
   m_ObjectHideFlags: 0
@@ -354,7 +384,7 @@ Transform:
   m_LocalPosition: {x: -4.11, y: 2.023, z: 2.559}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 977629842552401643}
+  - {fileID: 2939259631124267894}
   - {fileID: 977629841255667130}
   - {fileID: 977629841918799346}
   m_Father: {fileID: 0}
@@ -372,10 +402,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3be85da2e386e3b46a013bf6d13bf34c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  angle1: {fileID: 977629842552401643}
+  angle1: {fileID: 2939259631124267894}
   angle2: {fileID: 977629841255667130}
   cameraAxis: {fileID: 977629841918799346}
   cameraLens: {fileID: 6963539806860793293}
+  releaseSecurity:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_MethodName: ReleaseDrone
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &977629841918799349
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,36 +453,6 @@ Transform:
   m_Father: {fileID: 977629841917418417}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 26.064001, y: 0, z: 0}
---- !u!1 &977629842552401642
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 977629842552401643}
-  m_Layer: 0
-  m_Name: Angle1
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &977629842552401643
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 977629842552401642}
-  m_LocalRotation: {x: 0.16974752, y: -0.24108322, z: 0.053622644, w: 0.9540385}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 977629841917418417}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 20.472, y: -28.137001, z: 1.2520001}
 --- !u!1 &7864346689723526119
 GameObject:
   m_ObjectHideFlags: 0
