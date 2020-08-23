@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class SecurityCamera : MonoBehaviour
 {
@@ -11,30 +12,69 @@ public class SecurityCamera : MonoBehaviour
     Player player;
     float cameraFOV;
     Vector3 targetLookDirection;
+    Color currentColor;
+    Color targetColor;
     public Transform cameraAxis;
+    public Transform cameraLens;
+    Material cameraLensMaterial;
+    float idleSpeed = 4.5f;
+    float pauseTime = 1.5f;
+    float timeSeeingPlayer;
+    public UnityEvent releaseSecurity;
+    float securityCooldownTime = 10;
+
+
 
     void Start()
     {
         player = Player.instance;
         spotlight = GetComponentInChildren<Light>();
+        cameraLensMaterial = cameraLens.GetComponent<MeshRenderer>().material;
         cameraFOV = spotlight.spotAngle;
         maxDistance = spotlight.range;
+        currentColor = Color.red;
+        StartCoroutine(idleMovement());
     }
 
     void Update()
     {
         if (IsPlayerSeen())
+        {
             TargetPlayer();
+            targetColor = Color.white;
+            idleLerpT = Manager.InverseLerp(angle1.forward, angle2.forward, cameraAxis.forward);
+            timeSeeingPlayer += Time.deltaTime;
+        }
         else
+        {
             TargetIdle();
+            targetColor = Color.red;
+            timeSeeingPlayer = 0;
+        }
 
+        Security();
         Movement();
         ChangeColor();
     }
 
-    IEnumerator cameraLoop()
+    IEnumerator idleMovement()
     {
-        yield return new WaitForSeconds(1);
+        while (true)
+        {
+            while (idleLerpT < 1)
+            {
+                idleLerpT += Time.deltaTime / idleSpeed;
+                yield return null;
+            }
+            yield return new WaitForSeconds(pauseTime);
+            while (idleLerpT > 0)
+            {
+                idleLerpT -= Time.deltaTime / idleSpeed;
+                yield return null;
+            }
+            yield return new WaitForSeconds(pauseTime);
+            yield return null;
+        }
     }
 
 
@@ -45,9 +85,17 @@ public class SecurityCamera : MonoBehaviour
 
     void TargetIdle()
     {
-        //set target to idle movement
+        speedT = Mathf.Lerp(speedT, (idleLerpT - T) * tension, dampen);
+        T += speedT;
+        targetLookDirection = Vector3.LerpUnclamped(angle1.forward, angle2.forward, T);
     }
 
+
+    float tension = 0.5f;
+    float dampen = 0.2f;
+    float T;
+    float speedT;
+    float idleLerpT;
     void Movement() => cameraAxis.forward = Vector3.Lerp(cameraAxis.forward, targetLookDirection.normalized, Time.deltaTime * 3);
     Vector3 GetDirectionToTransform(Transform transform) => transform.position - spotlight.transform.position;
     float GetAngleBetweenObjectAndSpotlight(Transform transform) => Vector3.Angle(GetDirectionToTransform(transform), spotlight.transform.forward);
@@ -64,9 +112,33 @@ public class SecurityCamera : MonoBehaviour
     }
 
 
+
+    bool onCooldown;
+    float currentSecurityCooldownTime;
+    void Security()
+    {
+        if (timeSeeingPlayer > 3 && !onCooldown)
+        {
+            releaseSecurity.Invoke();
+            onCooldown = true;
+        }
+        if(onCooldown)
+            currentSecurityCooldownTime += Time.deltaTime;
+        if(currentSecurityCooldownTime >= securityCooldownTime)
+        {
+            onCooldown = false;
+            currentSecurityCooldownTime = 0;
+        }
+    }
+
+
+
     void ChangeColor()
     {
         //lerp to color
+        currentColor = Color.Lerp(currentColor, targetColor, Time.deltaTime * 5);
+        cameraLensMaterial.SetColor("_EmisColor", currentColor);
+        spotlight.color = currentColor;
     }
 
     private void OnDrawGizmos()
