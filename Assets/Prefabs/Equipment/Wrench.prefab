@@ -239,7 +239,7 @@ MonoBehaviour:
   Icon: {fileID: 21300000, guid: a0e318a084007894c9fa2d616c855d7b, type: 3}
   animator: {fileID: 0}
   interactionLoudnessDistance: 5
-  damage: 25
+  damage: 10
   defaultHitEffectPs: {fileID: 6704893950553102647, guid: b11ad56684b1512438a2e706afae5c60,
     type: 3}
   defaultCritHitEffectPs: {fileID: 6704893950553102647, guid: b11ad56684b1512438a2e706afae5c60,

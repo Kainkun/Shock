@@ -402,6 +402,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3be85da2e386e3b46a013bf6d13bf34c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 50
+  currentHealth: 0
+  lastHitDirection: {x: 0, y: 0, z: 0}
+  critMultiplier: 1
+  hitPs: {fileID: 6704893950553102647, guid: b11ad56684b1512438a2e706afae5c60, type: 3}
+  critHitPs: {fileID: 0}
   angle1: {fileID: 2939259631124267894}
   angle2: {fileID: 977629841255667130}
   cameraAxis: {fileID: 977629841918799346}

@@ -12,17 +12,13 @@ public class Entity : MonoBehaviour
     public float critMultiplier = 2;
     public GameObject hitPs;
     public GameObject critHitPs;
+    protected bool dead;
 
-    void Start()
+    protected virtual void Start()
     {
         currentHealth = maxHealth;
     }
 
-
-    void Update()
-    {
-        
-    }
     public virtual void TakeDamage(float damage, RaycastHit hit, Vector3 hitDirection)
     {
         lastHitDirection = hitDirection;
@@ -36,9 +32,11 @@ public class Entity : MonoBehaviour
     public virtual void TakeDamage(float damage)
     {
         currentHealth -= damage;
+        Manager.UpdateEntityHealth(currentHealth / maxHealth);
         if (currentHealth <= 0)
         {
             currentHealth = 0;
+            Manager.HideEntityHealth();
             Die();
         }
     }
@@ -54,7 +52,7 @@ public class Entity : MonoBehaviour
 
     public virtual void Die()
     {
-
+        dead = true;
     }
 
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class SecurityCamera : MonoBehaviour
+public class SecurityCamera : Entity
 {
     float maxDistance;
     public Transform angle1;
@@ -25,8 +25,11 @@ public class SecurityCamera : MonoBehaviour
 
 
 
-    void Start()
+    protected override void Start()
     {
+        base.Start();
+
+        transform.parent = null;
         player = Player.instance;
         spotlight = GetComponentInChildren<Light>();
         cameraLensMaterial = cameraLens.GetComponent<MeshRenderer>().material;
@@ -132,14 +135,25 @@ public class SecurityCamera : MonoBehaviour
         }
     }
 
-
-
     void ChangeColor()
     {
         //lerp to color
         currentColor = Color.Lerp(currentColor, targetColor, Time.deltaTime * 5);
         cameraLensMaterial.SetColor("_EmisColor", currentColor);
         spotlight.color = currentColor;
+    }
+
+    public override void Die()
+    {
+        if (dead)
+            return;
+
+        gameObject.AddComponent<Rigidbody>();
+        spotlight.enabled = false;
+        cameraLensMaterial.SetColor("_EmisColor", Color.black);
+        GetComponent<SecurityCamera>().enabled = false;
+
+        base.Die();
     }
 
     private void OnDrawGizmos()

@@ -21,6 +21,7 @@ public class Manager : MonoBehaviour
     static TextMeshProUGUI healthUI;
     static TextMeshProUGUI helptextUI;
     static Image damageBlink;
+    static Image entityHealth;
 
     private static List<TextAsset> logs = new List<TextAsset>();
 
@@ -43,7 +44,15 @@ public class Manager : MonoBehaviour
         logBgUI.gameObject.SetActive(false);
         helptextUI = uiCanvas.transform.Find("HelpText").GetComponent<TextMeshProUGUI>();
         helptextUI.gameObject.SetActive(false);
+        entityHealth = uiCanvas.transform.Find("EntityHealth").GetComponent<Image>();
+        entityHealth.gameObject.SetActive(false);
+    }
 
+    private void Update()
+    {
+        timeSinceLastEntityHealthUpdate += Time.deltaTime;
+        if(timeSinceLastEntityHealthUpdate > 5)
+            HideEntityHealth();
     }
 
     public static void AddLog(TextAsset textAsset)
@@ -54,7 +63,7 @@ public class Manager : MonoBehaviour
 
     public void ShowHelp(string helpText, float time)
     {
-        if(helpCR != null)
+        if (helpCR != null)
             StopCoroutine(helpCR);
         helptextUI.text = helpText;
         helpCR = StartCoroutine(CR_ShowHelp(time));
@@ -87,7 +96,7 @@ public class Manager : MonoBehaviour
     {
         damageBlink.enabled = true;
         yield return new WaitForSeconds(0.1f);
-        if(!Player.instance.dead)
+        if (!Player.instance.dead)
             damageBlink.enabled = false;
     }
 
@@ -99,6 +108,21 @@ public class Manager : MonoBehaviour
     public static void ToggleLog()
     {
         logBgUI.gameObject.SetActive(!logBgUI.gameObject.activeSelf);
+    }
+
+    static float timeSinceLastEntityHealthUpdate;
+    public static void UpdateEntityHealth(float percent)
+    {
+        timeSinceLastEntityHealthUpdate = 0;
+        if (!entityHealth.IsActive())
+            entityHealth.gameObject.SetActive(true);
+        entityHealth.fillAmount = percent;
+    }
+
+    public static void HideEntityHealth()
+    {
+        if (entityHealth.IsActive())
+            entityHealth.gameObject.SetActive(false);
     }
 
     #endregion
@@ -128,11 +152,11 @@ public class Manager : MonoBehaviour
     }
 
     public static float InverseLerp(Vector3 a, Vector3 b, Vector3 value)
-     {
-         Vector3 AB = b - a;
-         Vector3 AV = value - a;
-         return Vector3.Dot(AV, AB) / Vector3.Dot(AB, AB);
-     }
+    {
+        Vector3 AB = b - a;
+        Vector3 AV = value - a;
+        return Vector3.Dot(AV, AB) / Vector3.Dot(AB, AB);
+    }
 
     public static int mod(int x, int m)
     {
@@ -165,5 +189,18 @@ public class Manager : MonoBehaviour
 
         return pathLength;
     }
+
+    // public static T FindParentWithComponent<T>(Transform trans) where T : class
+    // {
+    //     var tempComp = trans.GetComponent<T>();
+    //     if(tempComp == null)
+    //         if(trans.parent == null)
+    //             return null;
+    //         else
+    //             return FindParentWithComponent<T>(trans.parent);
+    //     else
+    //         return tempComp;
+    // }
+
     #endregion
 }
