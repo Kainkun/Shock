@@ -15,7 +15,11 @@ public class RailSystem : MonoBehaviour
         public Node(Transform transform) => this.transform = transform;
 
         public Transform transform;
-        public List<Node> connections = new List<Node>();
+
+        public SortedList<float, Node> connections = new SortedList<float, Node>(); //key is distance
+
+        public float shortestDistanceFromStart;
+        public Node previousNode;
     }
 
     [SerializeField]
@@ -26,11 +30,6 @@ public class RailSystem : MonoBehaviour
     void Start()
     {
         InitNodes();
-    }
-
-    void Update()
-    {
-
     }
 
     void InitNodes()
@@ -45,8 +44,44 @@ public class RailSystem : MonoBehaviour
 
             Node nodeA = nodes[nodeConnection.nodeA];
             Node nodeB = nodes[nodeConnection.nodeB];
-            nodeA.connections.Add(nodeB);
-            nodeB.connections.Add(nodeA);
+            float distance = Vector3.Distance(nodeA.transform.position, nodeB.transform.position);
+            nodeA.connections.Add(distance, nodeB);
+            nodeB.connections.Add(distance, nodeA);
+        }
+    }
+
+    public Queue<Transform> PathFindDijkstra(Transform start, Transform end)
+    {
+        ClearPathfindingData();
+
+        Queue<Transform> queue = new Queue<Transform>();
+
+        var nodeToVisit = nodes[start];
+        VisitNode(ref nodeToVisit);
+        nodes[start] = nodeToVisit;
+
+        //visit starting node
+        //while shortestDistanceNode has nodes
+        //vist shortest node
+
+        return queue;
+    }
+
+    void VisitNode(ref Node node)
+    {
+        for (int i = 0; i < node.connections.Count; i++)
+        {
+            float distanceFromCurrentNode = node.connections.Keys[i];
+        }
+
+    }
+
+    void ClearPathfindingData()
+    {
+        foreach (var node in nodes)
+        {
+            node.Value.shortestDistanceFromStart = Mathf.Infinity;
+            node.Value.previousNode = null;
         }
     }
 

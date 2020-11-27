@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     public CrosshairSetting crosshairSettingNone;
     public Vector2 mouseSensitivty = Vector2.one;
 
+    public LayerMask InteractionLayer;
     float currentMoveSpeed;
     public float sneekSpeed = 50;
     public float walkSpeed = 200;
@@ -21,6 +22,7 @@ public class Player : MonoBehaviour
     [HideInInspector]
     public bool dead;
     public GameObject[] startingEquipment;
+    public HashSet<KeyData> keys = new HashSet<KeyData>();
 
     public float pistolAmmoCount;
     public float rifleAmmoCount;
@@ -116,7 +118,7 @@ public class Player : MonoBehaviour
         InteractionInput();
 
         RaycastHit hit;
-        if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit, maxInteractDistance))
+        if (Physics.SphereCast(mainCamera.transform.position, .1f, mainCamera.transform.forward, out hit, maxInteractDistance, InteractionLayer))
             if (hit.collider.GetComponent<PhysicalButton>() || hit.collider.GetComponent<Interactable>() || hit.collider.tag == "Pickup")
                 CrosshairManager.RingColor(Color.red);
             else
@@ -180,7 +182,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out hit, maxInteractDistance))
+            if (Physics.SphereCast(mainCamera.transform.position, .1f, mainCamera.transform.forward, out hit, maxInteractDistance, InteractionLayer))
             {
                 if (hit.collider.GetComponent<Equipment>())
                 {
@@ -199,7 +201,7 @@ public class Player : MonoBehaviour
 
                     UpdateAmmoUI();
                 }
-                else if(hit.collider.GetComponent<Interactable>())
+                else if (hit.collider.GetComponent<Interactable>())
                 {
                     hit.collider.GetComponent<Interactable>().Interact();
                 }
@@ -216,6 +218,10 @@ public class Player : MonoBehaviour
                             break;
                     }
                     currentEquipment?.GetComponent<Gun>()?.RefreshAmmoCountUI();
+                }
+                else if (hit.collider.GetComponent<Key>())
+                {
+                    keys.Add(hit.collider.GetComponent<Key>().getKey());
                 }
                 else if (hit.collider.GetComponent<Log>())
                 {
@@ -238,7 +244,7 @@ public class Player : MonoBehaviour
             currentEquipment?.GetComponent<Gun>()?.AttemptReload();
         }
 
-        if(Input.GetKeyDown(KeyCode.G))
+        if (Input.GetKeyDown(KeyCode.G))
         {
             Manager.ToggleLog();
         }
@@ -260,6 +266,10 @@ public class Player : MonoBehaviour
         }
 
     }
+
+    bool GetKey(KeyData key) => keys.Add(key);
+    public bool HasKey(KeyData requiredKey) => keys.Contains(requiredKey);
+
     void Movement()
     {
         Vector3 vel;

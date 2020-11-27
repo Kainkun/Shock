@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2713122332436388539}
   - component: {fileID: 2713122332436388516}
   - component: {fileID: 2431905022357436270}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: PistolAmmo
   m_TagString: Pickup
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.24
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &2431905022357436270
 MonoBehaviour:
@@ -72,7 +72,7 @@ GameObject:
   - component: {fileID: 2713122332512441882}
   - component: {fileID: 2713122332512441881}
   - component: {fileID: 2713122332512441880}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}

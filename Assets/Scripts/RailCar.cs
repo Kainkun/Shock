@@ -11,6 +11,8 @@ public class RailCar : MonoBehaviour
     Transform[] startingPath;
     Queue<Transform> travelQueue = new Queue<Transform>();
     Transform currentTargetNode;
+    Transform currentNode;
+    public Transform tempNode;
 
     void Start()
     {
@@ -27,7 +29,15 @@ public class RailCar : MonoBehaviour
         {
             transform.position = Vector3.MoveTowards(transform.position, currentTargetNode.position, speed * Time.deltaTime);
             if (Vector3.Distance(transform.position, currentTargetNode.position) < 0.1f)
+            {
+                currentNode = currentTargetNode;
                 GoToNextNode();
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            GoToNode(tempNode);
         }
 
     }
@@ -35,6 +45,16 @@ public class RailCar : MonoBehaviour
     public void GoToNode(Transform node)
     {
         //make queue
+        //travelQueue = railSystem.PathFindDijkstra()
+        travelQueue = railSystem.PathFindDijkstra(currentNode, node);
+
+        var arr = travelQueue.ToArray();
+        for (int i = 0; i < arr.Length; i++)
+        {
+            print(arr[i]);
+        }
+
+        GoToNextNode();
     }
 
     Transform GoToNextNode()
@@ -51,4 +71,5 @@ public class RailCar : MonoBehaviour
             return null;
         }
     }
+
 }

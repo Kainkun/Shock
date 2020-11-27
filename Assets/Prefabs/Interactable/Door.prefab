@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4264343629009919618}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 1131039769102076339}
   - component: {fileID: 3589905831897150227}
   - component: {fileID: 1751955712474344002}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -137,6 +137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0145f243032b1ee49b3d9022f862184c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isInteracted: 0
   animationTime: 0.15
   endPosition: {x: 0, y: 0, z: 0}
   endRotation: {x: 0, y: 145, z: 0}
@@ -149,7 +150,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2108985066854801159}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: MoveAxis
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,7 +181,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7124653490374139495}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: StartAxis
   m_TagString: Untagged
   m_Icon: {fileID: 0}

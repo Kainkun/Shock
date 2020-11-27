@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4412990031974573186}
   - component: {fileID: 4412990031974573197}
   - component: {fileID: 4412990031974573196}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -90,7 +90,7 @@ GameObject:
   - component: {fileID: 4412990032019523481}
   - component: {fileID: 4412990032019523483}
   - component: {fileID: 4412990032019523482}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Cylinder (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,7 +169,7 @@ GameObject:
   - component: {fileID: 4412990032180325545}
   - component: {fileID: 4412990032180325547}
   - component: {fileID: 4412990032180325546}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -249,7 +249,7 @@ GameObject:
   - component: {fileID: 4412990032528552384}
   - component: {fileID: 4412990032528552391}
   - component: {fileID: 4412990032528552390}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -341,7 +341,7 @@ GameObject:
   - component: {fileID: 4412990033355077603}
   - component: {fileID: 1666653413534877337}
   - component: {fileID: 7553714979107617978}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Log
   m_TagString: Pickup
   m_Icon: {fileID: 0}
@@ -379,13 +379,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textAsset: {fileID: 4900000, guid: fc083af37d831e540ac3f1a1014a931e, type: 3}
-  logText: 'hello
+  logText: 'Tom: Dagnabit... the pipes are broken and my wrench is rusted to crap.
 
-    this is a test
-
-    i am typing stuff as a test
-
-    yoyoyo'
+    When''ll
+    management spend a few bucks so I can fix their own equipment?'
 --- !u!135 &7553714979107617978
 SphereCollider:
   m_ObjectHideFlags: 0
